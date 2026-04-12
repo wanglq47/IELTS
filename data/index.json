@@ -1,26 +1,45 @@
 [
   {
     "id": "test_sample",
-    "title": "Cambridge IELTS — Sample Test",
+    "title": "Cambridge IELTS — Sample Reading",
     "book": "Sample",
-    "test": "Test 1",
+    "test": "Reading Test 1",
+    "type": "reading",
     "sections": 3,
     "questions": 15
   },
   {
     "id": "cambridge_4_test1",
-    "title": "Cambridge IELTS 4 — Test 1",
+    "title": "Cambridge IELTS 4 — Reading Test 1",
     "book": "Cambridge 4",
-    "test": "Test 1",
+    "test": "Reading Test 1",
+    "type": "reading",
     "sections": 3,
     "questions": 18
   },
   {
+    "id": "cambridge_4_writing1",
+    "title": "Cambridge IELTS 4 — Writing Test 1",
+    "book": "Cambridge 4",
+    "test": "Writing Test 1",
+    "type": "writing",
+    "sections": 2
+  },
+  {
     "id": "cambridge_5_test2",
-    "title": "Cambridge IELTS 5 — Test 2",
+    "title": "Cambridge IELTS 5 — Reading Test 2",
     "book": "Cambridge 5",
-    "test": "Test 2",
+    "test": "Reading Test 2",
+    "type": "reading",
     "sections": 3,
     "questions": 18
+  },
+  {
+    "id": "cambridge_5_writing2",
+    "title": "Cambridge IELTS 5 — Writing Test 2",
+    "book": "Cambridge 5",
+    "test": "Writing Test 2",
+    "type": "writing",
+    "sections": 2
   }
 ]

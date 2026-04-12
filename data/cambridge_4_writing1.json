@@ -1,0 +1,17 @@
+{
+  "id": "cambridge_4_writing1",
+  "title": "Cambridge IELTS 4 — Writing Test 1",
+  "type": "writing",
+  "writing": {
+    "task1": {
+      "title": "Waste recycling rates",
+      "prompt": "The graph below shows the percentage of waste recycled in four different countries between 1980 and 2010.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.",
+      "image": "data/images/cambridge_4_writing1_task1.png",
+      "image_caption": "Figure 1: Recycling rates (%) in four countries, 1980–2010"
+    },
+    "task2": {
+      "title": "Technology and communication",
+      "prompt": "Some people say that the Internet is making the world smaller by bringing people together. To what extent do you agree that the Internet is making it easier for people to communicate with one another?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words."
+    }
+  }
+}
