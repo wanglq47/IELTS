@@ -1,0 +1,165 @@
+{
+  "id": "cambridge_sample",
+  "title": "Cambridge IELTS — Sample Test",
+  "sections": [
+    {
+      "id": "s1",
+      "label": "Section 1",
+      "passage_title": "The History of Refrigeration",
+      "passage": "The idea of using ice and snow to preserve food and create cool environments dates back thousands of years. Ancient civilisations in China, Egypt and Rome collected ice from mountains and stored it in specially constructed ice houses, where it could be kept for months.\n\nIn the early nineteenth century, American entrepreneur Frederic Tudor transformed the harvesting and distribution of natural ice into a major commercial enterprise. By cutting large blocks from frozen lakes and rivers, then shipping them as far as India and the Caribbean, Tudor built a business that made ice accessible to people worldwide.\n\nThe first practical vapour-compression refrigeration system was demonstrated in 1834 by American inventor Jacob Perkins. Although his machine attracted little commercial interest at the time, it established the basic principles that underpin all modern refrigerators.\n\nWidespread domestic refrigeration did not occur until the twentieth century. Electric refrigerators became widely available in the United States during the 1920s, though they remained expensive luxuries for most households throughout that decade. The introduction of Freon as a safe refrigerant in 1928 was a turning point, eliminating the danger posed by toxic gases previously used in commercial refrigeration.",
+      "questions": [
+        {
+          "id": "q1",
+          "type": "fill",
+          "number": 1,
+          "text": "Ancient people stored ice in specially constructed ___ to preserve it for months.",
+          "answer": "ice houses"
+        },
+        {
+          "id": "q2",
+          "type": "fill",
+          "number": 2,
+          "text": "Frederic Tudor shipped ice to distant locations including India and the ___.",
+          "answer": "Caribbean"
+        },
+        {
+          "id": "q3",
+          "type": "fill",
+          "number": 3,
+          "text": "The first vapour-compression refrigeration system was built in ___.",
+          "answer": "1834"
+        },
+        {
+          "id": "q4",
+          "type": "mcq",
+          "number": 4,
+          "text": "What is stated about Jacob Perkins' refrigeration machine?",
+          "options": [
+            "It attracted little commercial interest initially.",
+            "It was immediately adopted by manufacturers.",
+            "It required large amounts of natural ice to operate.",
+            "It was the first machine to use Freon as a refrigerant."
+          ],
+          "answer": 0
+        },
+        {
+          "id": "q5",
+          "type": "mcq",
+          "number": 5,
+          "text": "When did electric refrigerators become widely available in the United States?",
+          "options": [
+            "In the 1900s",
+            "In the 1920s",
+            "In the 1930s",
+            "In the 1940s"
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q6",
+          "type": "tfng",
+          "number": 6,
+          "text": "Freon was introduced as a refrigerant because previous gases were considered dangerous.",
+          "answer": "TRUE"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "Section 2",
+      "passage_title": "Urban Beekeeping",
+      "passage": "In recent decades, beekeeping has undergone a remarkable transformation, shifting from a predominantly rural pursuit to one increasingly practised in the heart of cities. Urban beekeepers can now be found on rooftops and balconies across London, New York, Paris and Tokyo, tending hives that produce honey prized for its complex local flavours.\n\nThe growth of urban beekeeping has been driven by a combination of factors. A heightened awareness of the global decline in bee populations has prompted many city dwellers to take direct action. Bees are essential pollinators, responsible for the reproduction of a significant proportion of the world's food crops. Their decline, caused by habitat loss, pesticide use and disease, has raised serious concerns among scientists and policymakers alike.\n\nContrary to early assumptions, urban environments can actually provide favourable conditions for bees. Cities tend to have higher average temperatures than surrounding rural areas — a phenomenon known as the urban heat island effect — which extends the foraging season. Furthermore, urban parks, gardens and street trees offer a surprisingly diverse range of flowering plants throughout the year, providing a more consistent food source than the monocultures that dominate much of the modern countryside.\n\nNevertheless, urban beekeeping is not without its challenges. Concerns about the density of hives in some cities have led to calls for regulation. Researchers have found that in areas with very high concentrations of managed hives, competition for floral resources can put pressure on both honey bees and wild pollinators. Some cities, including Paris, have responded by introducing limits on the number of hives permitted per square kilometre.",
+      "questions": [
+        {
+          "id": "q7",
+          "type": "tfng",
+          "number": 7,
+          "text": "Urban beekeeping is a recent phenomenon with no historical precedent.",
+          "answer": "NOT GIVEN"
+        },
+        {
+          "id": "q8",
+          "type": "tfng",
+          "number": 8,
+          "text": "The decline in bee populations has been caused solely by pesticide use.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q9",
+          "type": "tfng",
+          "number": 9,
+          "text": "Urban areas generally experience higher temperatures than rural areas.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q10",
+          "type": "mcq",
+          "number": 10,
+          "text": "What problem has been identified with high concentrations of managed hives in cities?",
+          "options": [
+            "Increased aggression in urban bee populations",
+            "Competition for food that harms wild pollinators",
+            "Rapid spread of disease between hives",
+            "Reduced honey production per hive"
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q11",
+          "type": "fill",
+          "number": 11,
+          "text": "The urban ___ effect means cities are warmer than nearby rural areas.",
+          "answer": "heat island"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Section 3",
+      "passage_title": "The Science of Sleep",
+      "passage": "Sleep occupies roughly one third of our lives, yet for most of human history its purpose remained deeply mysterious. Only in recent decades have scientists begun to unravel the complex biological processes that occur during sleep and to understand why its disruption carries such serious consequences for health.\n\nHuman sleep is not a single uniform state but a cycle of distinct phases that repeats several times each night. These phases divide broadly into rapid eye movement (REM) sleep and non-REM sleep, the latter comprising three progressively deeper stages. During the deepest stage of non-REM sleep, the body undergoes significant physical restoration: growth hormone is released, tissues are repaired, and the immune system is reinforced. REM sleep, by contrast, is characterised by intense brain activity and is strongly associated with dreaming and with the consolidation of memory.\n\nThe regulation of sleep is governed by two interacting systems. The first is the circadian rhythm, an internal biological clock that runs on an approximately 24-hour cycle and is synchronised primarily by exposure to light. The second is homeostatic sleep pressure, which accumulates the longer a person remains awake and dissipates during sleep. Together, these systems determine when we feel sleepy and when we feel alert.\n\nChronic sleep deprivation has been linked to a wide range of adverse health outcomes, including cardiovascular disease, obesity, type 2 diabetes and impaired cognitive function. Research suggests that even modest reductions in sleep duration — sleeping six hours per night rather than eight, for instance — can significantly affect reaction time, decision-making and emotional regulation, often in ways that the individual does not perceive.",
+      "questions": [
+        {
+          "id": "q12",
+          "type": "mcq",
+          "number": 12,
+          "text": "According to the passage, what happens during the deepest stage of non-REM sleep?",
+          "options": [
+            "The brain consolidates memories from the day.",
+            "Growth hormone is released and tissues are repaired.",
+            "The body temperature drops to its lowest point.",
+            "Dreaming occurs most intensively."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q13",
+          "type": "fill",
+          "number": 13,
+          "text": "The circadian rhythm is synchronised mainly by exposure to ___.",
+          "answer": "light"
+        },
+        {
+          "id": "q14",
+          "type": "tfng",
+          "number": 14,
+          "text": "People who sleep six hours per night are always aware of the effects on their performance.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q15",
+          "type": "mcq",
+          "number": 15,
+          "text": "What is the main purpose of the final paragraph?",
+          "options": [
+            "To recommend a specific number of hours of sleep",
+            "To describe the two systems that regulate sleep",
+            "To outline the health risks associated with insufficient sleep",
+            "To explain the difference between REM and non-REM sleep"
+          ],
+          "answer": 2
+        }
+      ]
+    }
+  ]
+}
