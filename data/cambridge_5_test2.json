@@ -1,0 +1,192 @@
+{
+  "id": "cambridge_5_test2",
+  "title": "Cambridge IELTS 5 — Test 2",
+  "sections": [
+    {
+      "id": "s1",
+      "label": "Section 1",
+      "passage_title": "The Development of Aviation",
+      "passage": "The history of powered flight began on a cold December morning in 1903, when Orville and Wilbur Wright successfully flew a petrol-powered aircraft at Kitty Hawk, North Carolina. Their first flight lasted just twelve seconds and covered a distance of thirty-seven metres — barely longer than the wingspan of a modern commercial jet. Yet this modest achievement marked the beginning of an era that would transform human civilisation.\n\nProgress in aviation technology during the first two decades of the twentieth century was rapid, driven largely by military demand during the First World War. Aircraft that had been fragile, unreliable machines used primarily for reconnaissance evolved into robust fighters and bombers capable of sustained operations. By the war's end in 1918, several nations possessed air forces of thousands of aircraft, and the mechanical knowledge accumulated during the conflict would form the basis of commercial aviation.\n\nThe first scheduled passenger air service began in Florida in January 1914, operated by the St. Petersburg-Tampa Airboat Line. The service used a single flying boat and carried one passenger at a time across Tampa Bay, a journey of about thirty kilometres that took twenty-three minutes — far quicker than the alternative two-hour boat crossing. Though the airline operated for only four months before ceasing operations, it demonstrated that commercial air travel was feasible.\n\nThe 1920s and 1930s saw the gradual expansion of commercial aviation. Flying remained expensive, uncomfortable and dangerous by modern standards, but airlines began establishing routes across continents and oceans. The introduction of larger, multi-engine aircraft improved both capacity and safety. By the late 1930s, flying boats operated by carriers such as Pan American Airways were offering transoceanic services, linking North America with Europe and the Pacific.\n\nThe real transformation of mass air travel came after the Second World War, with the introduction of jet-powered passenger aircraft. The de Havilland Comet, which entered service in 1952, was the world's first commercial jet airliner. Although early models suffered from structural problems that led to fatal accidents, the lessons learned contributed to the development of safer and more efficient aircraft. By the 1960s, jet travel had become the standard for long-distance journeys.",
+      "questions": [
+        {
+          "id": "q1",
+          "type": "fill",
+          "number": 1,
+          "text": "The Wright brothers' first flight took place in ___, North Carolina.",
+          "answer": "Kitty Hawk"
+        },
+        {
+          "id": "q2",
+          "type": "fill",
+          "number": 2,
+          "text": "The first scheduled passenger air service began in ___ 1914.",
+          "answer": "January"
+        },
+        {
+          "id": "q3",
+          "type": "tfng",
+          "number": 3,
+          "text": "The St. Petersburg-Tampa Airboat Line operated for more than a year.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q4",
+          "type": "tfng",
+          "number": 4,
+          "text": "The de Havilland Comet was the world's first commercial jet airliner.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q5",
+          "type": "mcq",
+          "number": 5,
+          "text": "What was the main factor that accelerated aviation development in the early twentieth century?",
+          "options": [
+            "Commercial passenger demand",
+            "Government investment in infrastructure",
+            "Military requirements during the First World War",
+            "Competition between aircraft manufacturers"
+          ],
+          "answer": 2
+        },
+        {
+          "id": "q6",
+          "type": "mcq",
+          "number": 6,
+          "text": "What advantage did the Tampa Bay air service offer over the boat crossing?",
+          "options": [
+            "It was cheaper than the boat.",
+            "It was significantly faster.",
+            "It could carry more passengers.",
+            "It operated in all weather conditions."
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "Section 2",
+      "passage_title": "Noise Pollution and Urban Health",
+      "passage": "In recent decades, researchers have increasingly recognised noise as a serious environmental hazard with significant consequences for public health. While hearing damage from prolonged exposure to loud sounds has long been understood, scientists now know that noise at levels well below those that cause hearing loss can have wide-ranging physiological and psychological effects.\n\nThe World Health Organisation has estimated that at least one million healthy life years are lost annually in Western Europe alone due to traffic-related noise. Studies consistently link chronic exposure to environmental noise — from roads, railways, aircraft and industrial sources — with elevated rates of cardiovascular disease, including hypertension and heart attack. The proposed mechanism involves the body's stress response: noise triggers the release of stress hormones such as cortisol and adrenaline, which over time can damage the cardiovascular system.\n\nSleep disturbance is among the most significant pathways through which noise affects health. Research indicates that people living near major roads or airports experience fragmented sleep even at noise levels they are not consciously aware of. The body's stress response continues during sleep, meaning that arterial blood pressure rises in response to traffic noise even in sleeping individuals. Chronic sleep disruption is associated with a wide range of health problems, including obesity, diabetes and impaired immune function.\n\nChildren appear to be particularly vulnerable to the effects of noise pollution. Studies conducted near airports and busy roads have found that children exposed to chronic aircraft or traffic noise show impaired reading comprehension, reduced memory performance and elevated stress hormone levels. Some research suggests that these cognitive effects may persist even when children move to quieter environments, raising concerns about long-term developmental consequences.\n\nMitigating urban noise pollution presents considerable challenges. Physical barriers such as noise walls alongside motorways can reduce local noise levels, but are expensive to construct and have limited effectiveness in built-up areas. Urban planning approaches — including zoning regulations that separate residential areas from major transport routes, and requirements for noise-insulating construction in new buildings — offer more systematic solutions. Some cities have introduced low-noise road surfaces and quiet zones in parks and residential neighbourhoods.",
+      "questions": [
+        {
+          "id": "q7",
+          "type": "tfng",
+          "number": 7,
+          "text": "Only sounds loud enough to cause hearing damage have health consequences.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q8",
+          "type": "tfng",
+          "number": 8,
+          "text": "The WHO has linked traffic noise to the loss of at least one million healthy life years per year in Western Europe.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q9",
+          "type": "mcq",
+          "number": 9,
+          "text": "How does noise affect the cardiovascular system, according to the passage?",
+          "options": [
+            "By directly damaging blood vessels through vibration",
+            "By triggering the release of stress hormones over time",
+            "By disrupting the circadian rhythm",
+            "By reducing the effectiveness of sleep medication"
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q10",
+          "type": "fill",
+          "number": 10,
+          "text": "The body continues its ___ response to traffic noise even during sleep.",
+          "answer": "stress"
+        },
+        {
+          "id": "q11",
+          "type": "mcq",
+          "number": 11,
+          "text": "What concern is raised about children chronically exposed to noise?",
+          "options": [
+            "They are more likely to develop hearing loss than adults.",
+            "Cognitive effects may persist after moving to quieter areas.",
+            "They are unable to concentrate in school environments.",
+            "They develop higher stress hormone levels than adults."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q12",
+          "type": "tfng",
+          "number": 12,
+          "text": "Noise walls are considered the most cost-effective solution to urban noise.",
+          "answer": "NOT GIVEN"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Section 3",
+      "passage_title": "The Plastic Problem",
+      "passage": "Since its widespread introduction in the mid-twentieth century, plastic has become one of the defining materials of modern civilisation. Durable, lightweight, cheap to produce and endlessly versatile, plastic now permeates virtually every aspect of daily life. Global plastic production has grown from two million tonnes in 1950 to more than four hundred million tonnes annually today, and the pace of production continues to accelerate.\n\nThe properties that make plastic so useful — above all, its resistance to degradation — also make it an environmental problem of extraordinary scale. Unlike organic materials, most plastics do not biodegrade. Instead, they break down slowly under the influence of sunlight and physical abrasion into increasingly small fragments known as microplastics, particles smaller than five millimetres. These particles have now been found in virtually every environment on Earth, from the deepest ocean trenches to remote mountain peaks, from Antarctic ice to human blood.\n\nThe consequences for marine ecosystems are particularly severe. An estimated eight million tonnes of plastic enters the ocean each year. Large plastic debris entangles and kills marine mammals, sea turtles and seabirds. Filter feeders such as mussels and oysters ingest microplastics, which accumulate in their tissues. The plastics themselves can carry toxic additives and absorbed pollutants, which may enter food chains. Research has found microplastics in commercial fish and seafood consumed by humans, though the health implications remain an active area of investigation.\n\nEfforts to address plastic pollution operate at multiple levels. At the individual and corporate level, there has been growing pressure to reduce single-use plastics and improve recycling rates. However, critics argue that recycling alone is insufficient: globally, only about nine percent of plastic waste has ever been recycled, with the majority going to landfill, being incinerated or entering the environment. More fundamental change, they argue, requires redesigning products and systems to use less plastic in the first place.\n\nSome countries have made significant legislative progress. The European Union has banned a range of single-use plastic products, including cutlery, plates and cotton bud sticks. Rwanda is frequently cited as a global leader in plastic regulation, having implemented a comprehensive ban on plastic bags as far back as 2008. Yet progress is uneven, and in many rapidly developing countries, plastic waste management infrastructure remains severely limited.",
+      "questions": [
+        {
+          "id": "q13",
+          "type": "fill",
+          "number": 13,
+          "text": "Global annual plastic production has grown to more than ___ million tonnes today.",
+          "answer": "four hundred"
+        },
+        {
+          "id": "q14",
+          "type": "fill",
+          "number": 14,
+          "text": "Microplastics are defined as plastic particles smaller than ___ millimetres.",
+          "answer": "five"
+        },
+        {
+          "id": "q15",
+          "type": "mcq",
+          "number": 15,
+          "text": "What does the passage say about the health effects of microplastics in seafood?",
+          "options": [
+            "They are confirmed to cause cancer in humans.",
+            "They are still being actively researched.",
+            "They have been proven harmless at current levels.",
+            "They affect only people who eat large amounts of seafood."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q16",
+          "type": "tfng",
+          "number": 16,
+          "text": "Approximately half of all plastic waste produced has been recycled.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q17",
+          "type": "tfng",
+          "number": 17,
+          "text": "Rwanda introduced restrictions on plastic bags before 2010.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q18",
+          "type": "mcq",
+          "number": 18,
+          "text": "What do critics of recycling-focused approaches argue?",
+          "options": [
+            "Recycling technology is not yet advanced enough to be effective.",
+            "Reducing plastic use in the first place is more important than recycling.",
+            "Incineration is a better solution than recycling.",
+            "Individual behaviour change is more effective than legislation."
+          ],
+          "answer": 1
+        }
+      ]
+    }
+  ]
+}

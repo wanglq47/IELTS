@@ -1,0 +1,192 @@
+{
+  "id": "cambridge_4_test1",
+  "title": "Cambridge IELTS 4 — Test 1",
+  "sections": [
+    {
+      "id": "s1",
+      "label": "Section 1",
+      "passage_title": "The Origins of Writing",
+      "passage": "Writing is one of the most significant inventions in human history. Before its development, knowledge could only be passed on orally, limiting the amount of information that could be reliably transmitted across generations. The emergence of writing systems allowed civilisations to record laws, trade transactions, astronomical observations and literary works with a permanence that speech could never provide.\n\nThe earliest known writing system emerged in Mesopotamia around 3200 BCE. Known as cuneiform, this system was initially developed by the Sumerians for the practical purpose of recording agricultural surpluses and trade goods. The earliest cuneiform tablets are essentially accounting records — lists of commodities such as grain, livestock and textiles. Only later did the system evolve to record language more fully, enabling the composition of literary texts such as the Epic of Gilgamesh, one of the world's oldest surviving works of literature.\n\nAt roughly the same time, a separate writing system was developing in ancient Egypt. Hieroglyphics combined logographic symbols, which represented whole words or concepts, with phonetic elements that represented sounds. Unlike cuneiform, which was largely confined to administrative and commercial contexts, hieroglyphics were used extensively for religious and ceremonial purposes, appearing on temple walls, tombs and monuments.\n\nThe invention of the alphabet, which represents individual sounds rather than whole words or syllables, is generally attributed to Semitic peoples living in the ancient Near East around 1800 BCE. This innovation dramatically reduced the number of symbols needed to write a language, making literacy more accessible. The Phoenician alphabet, developed around 1050 BCE, became the ancestor of most modern alphabetic scripts, including Greek, Latin and Arabic.",
+      "questions": [
+        {
+          "id": "q1",
+          "type": "fill",
+          "number": 1,
+          "text": "Before writing existed, knowledge was transmitted through ___ communication.",
+          "answer": "oral"
+        },
+        {
+          "id": "q2",
+          "type": "fill",
+          "number": 2,
+          "text": "The cuneiform system was first created to keep records of ___ surpluses.",
+          "answer": "agricultural"
+        },
+        {
+          "id": "q3",
+          "type": "fill",
+          "number": 3,
+          "text": "The Epic of Gilgamesh is considered one of the world's oldest works of ___.",
+          "answer": "literature"
+        },
+        {
+          "id": "q4",
+          "type": "mcq",
+          "number": 4,
+          "text": "How did Egyptian hieroglyphics differ from Mesopotamian cuneiform?",
+          "options": [
+            "Hieroglyphics were older than cuneiform.",
+            "Hieroglyphics were used more for religious purposes.",
+            "Hieroglyphics used only phonetic symbols.",
+            "Hieroglyphics were simpler to learn than cuneiform."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q5",
+          "type": "mcq",
+          "number": 5,
+          "text": "What was the main advantage of alphabetic writing over earlier systems?",
+          "options": [
+            "It could represent more complex ideas.",
+            "It required fewer symbols, making literacy easier.",
+            "It was more suitable for religious texts.",
+            "It developed earlier than cuneiform."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q6",
+          "type": "tfng",
+          "number": 6,
+          "text": "The Phoenician alphabet directly influenced the development of Chinese writing.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q7",
+          "type": "tfng",
+          "number": 7,
+          "text": "Cuneiform was first used for literary rather than commercial purposes.",
+          "answer": "FALSE"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "Section 2",
+      "passage_title": "Coral Reefs Under Threat",
+      "passage": "Coral reefs are among the most biologically diverse ecosystems on the planet. Covering less than one percent of the ocean floor, they support approximately twenty-five percent of all marine species. Often described as the rainforests of the sea, coral reefs provide food and shelter for an extraordinary variety of fish, invertebrates and marine mammals, and underpin the livelihoods of hundreds of millions of people worldwide through fisheries and tourism.\n\nDespite their ecological and economic importance, coral reefs are in serious decline. Scientists estimate that approximately half of the world's coral reefs have been lost since the 1950s, and projections suggest that without significant intervention, as many as ninety percent could be severely degraded by 2050. The causes are multiple and interacting, but climate change is now widely regarded as the primary driver of reef destruction.\n\nWhen seawater temperatures rise even slightly above their normal range, corals undergo a process known as bleaching. Under heat stress, corals expel the symbiotic algae — called zooxanthellae — that live within their tissues and provide them with up to ninety percent of their energy through photosynthesis. Without these algae, the coral turns white and, if the stress continues, dies. Mass bleaching events, once rare, are now occurring with increasing frequency. The Great Barrier Reef, the world's largest coral reef system, experienced unprecedented back-to-back bleaching events in 2016 and 2017.\n\nOcean acidification, driven by the absorption of atmospheric carbon dioxide, compounds the problem. As the ocean becomes more acidic, it becomes harder for corals to build and maintain their calcium carbonate skeletons. Pollution and coastal development add further pressure, introducing sediment and nutrients that promote the growth of algae which can suffocate coral. Destructive fishing practices, including the use of explosives and cyanide, cause direct physical damage.",
+      "questions": [
+        {
+          "id": "q8",
+          "type": "tfng",
+          "number": 8,
+          "text": "Coral reefs cover more than five percent of the ocean floor.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q9",
+          "type": "tfng",
+          "number": 9,
+          "text": "Half of the world's coral reefs have been lost since the 1950s.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q10",
+          "type": "tfng",
+          "number": 10,
+          "text": "Zooxanthellae provide corals with the majority of their energy.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q11",
+          "type": "mcq",
+          "number": 11,
+          "text": "What effect does ocean acidification have on coral reefs?",
+          "options": [
+            "It causes corals to expel their symbiotic algae.",
+            "It makes it harder for corals to form their skeletons.",
+            "It directly kills fish that depend on coral reefs.",
+            "It increases the frequency of bleaching events."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q12",
+          "type": "fill",
+          "number": 12,
+          "text": "The Great Barrier Reef experienced bleaching events in ___ consecutive years.",
+          "answer": "two"
+        },
+        {
+          "id": "q13",
+          "type": "mcq",
+          "number": 13,
+          "text": "According to the passage, which factor is considered the main cause of reef destruction?",
+          "options": [
+            "Destructive fishing practices",
+            "Coastal development and pollution",
+            "Climate change",
+            "Ocean acidification"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Section 3",
+      "passage_title": "The Psychology of Decision-Making",
+      "passage": "For much of the twentieth century, economists and psychologists assumed that human beings were essentially rational agents — individuals who gathered available information, weighed costs and benefits, and consistently chose the option that best served their interests. This model, known as rational choice theory, was the foundation of mainstream economics and influenced public policy in profound ways.\n\nThe work of psychologists Daniel Kahneman and Amos Tversky, beginning in the 1970s, fundamentally challenged this assumption. Through a series of elegant experiments, they demonstrated that human judgment and decision-making are subject to systematic biases and errors. People do not always choose the option with the highest expected value; instead, they rely on mental shortcuts — called heuristics — that work well in many situations but produce predictable errors in others.\n\nOne of Kahneman and Tversky's most influential findings concerns what they called loss aversion. In a series of studies, they found that people are roughly twice as sensitive to potential losses as they are to equivalent gains. In other words, the pain of losing one hundred pounds is felt approximately twice as strongly as the pleasure of gaining the same amount. This asymmetry has wide-ranging implications: it explains why investors hold onto losing stocks far longer than is rational, why homeowners resist selling their properties at a loss, and why people are more strongly motivated by the threat of losing a benefit than by the prospect of gaining one.\n\nA related phenomenon is the endowment effect — the tendency of people to overvalue objects simply because they own them. In a classic experiment, participants who were randomly given a coffee mug valued it at approximately twice the price of those who were offered the chance to buy the same mug. Ownership, it seems, inflates perceived value in ways that have nothing to do with the object's actual worth.\n\nKahneman later synthesised much of this research in his influential book Thinking, Fast and Slow, in which he proposed a dual-process model of cognition. System 1 thinking is fast, automatic and intuitive; System 2 thinking is slow, deliberate and analytical. Many of the biases he identified arise because people rely on System 1 when the situation actually demands the more effortful System 2.",
+      "questions": [
+        {
+          "id": "q14",
+          "type": "mcq",
+          "number": 14,
+          "text": "What did rational choice theory assume about human beings?",
+          "options": [
+            "They were guided primarily by emotion.",
+            "They consistently made decisions in their best interest.",
+            "They relied on mental shortcuts to make decisions.",
+            "They were more sensitive to losses than gains."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "q15",
+          "type": "fill",
+          "number": 15,
+          "text": "According to Kahneman and Tversky, people are approximately ___ times more sensitive to losses than to equivalent gains.",
+          "answer": "twice"
+        },
+        {
+          "id": "q16",
+          "type": "tfng",
+          "number": 16,
+          "text": "The endowment effect means people value things they own more highly than identical objects they do not own.",
+          "answer": "TRUE"
+        },
+        {
+          "id": "q17",
+          "type": "tfng",
+          "number": 17,
+          "text": "Kahneman and Tversky began their collaboration in the 1990s.",
+          "answer": "FALSE"
+        },
+        {
+          "id": "q18",
+          "type": "mcq",
+          "number": 18,
+          "text": "In Kahneman's dual-process model, what characterises System 2 thinking?",
+          "options": [
+            "It is fast and automatic.",
+            "It relies on heuristics.",
+            "It is slow and analytical.",
+            "It is more prone to bias than System 1."
+          ],
+          "answer": 2
+        }
+      ]
+    }
+  ]
+}
