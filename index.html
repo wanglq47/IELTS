@@ -964,7 +964,17 @@ function renderVocabList(filter) {
     const del = document.createElement('button');
     del.className = 'vocab-del';
     del.textContent = '×';
-    del.onclick = () => { state.vocab.splice(state.vocab.indexOf(v), 1); saveVocab(); renderVocab(); };
+    del.onclick = () => {
+      state.vocab.splice(state.vocab.indexOf(v), 1);
+      saveVocab();
+      const sec = state.test.sections[state.currentSection];
+      const body = document.getElementById('passage-body');
+      body.querySelectorAll('mark.hl').forEach(mark => {
+        mark.replaceWith(document.createTextNode(mark.textContent));
+      });
+      reapplyHighlights(sec.id);
+      renderVocab();
+    };
     row.appendChild(dot); row.appendChild(word); row.appendChild(cat); row.appendChild(del);
     list.appendChild(row);
   });
