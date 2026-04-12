@@ -380,7 +380,7 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 
 <div id="topbar">
   <div id="topbar-left">
-    <a href="index.html" id="brand" style="text-decoration:none;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>IELTS Reading</a>
+    <a href="tests.html" id="brand" style="text-decoration:none;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>IELTS Reading</a>
     <div class="sec-tabs" id="sec-tabs"></div>
   </div>
   <div id="topbar-right">
@@ -423,14 +423,13 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
         </div>
       </div>
       <div class="band-label" id="sc-label"></div>
+      <button id="btn-retry" style="margin-top:10px;width:100%;padding:7px;border-radius:6px;border:1px solid var(--rule);background:var(--surface2);font-size:12px;cursor:pointer;font-family:var(--sans);color:var(--ink2)">&#8635; Retry this section</button>
     </div>
     <div id="q-body"></div>
     <div id="q-footer">
-      <span id="q-footer-info"></span>
+      <a href="tests.html" style="font-size:12px;color:var(--ink3);text-decoration:none">&#8592; Tests</a>
       <button id="btn-submit">Submit Section</button>
     </div>
-  </div>
-</div>
 
 <!-- Colour picker popup -->
 <div id="color-popup">
@@ -780,11 +779,48 @@ function updateSubmitBtn(sec) {
 // ─── SUBMIT & SCORE ───────────────────────────────────────────────────────────
 function submitSection(sec) {
   state.submitted[sec.id] = true;
+  logErrors(sec);
   showScore(sec);
   document.getElementById('score-card').classList.add('show');
-  renderSection(state.currentSection); // re-render with feedback
+  renderSection(state.currentSection);
   renderSectionTabs();
   saveResults();
+  // Wire retry button
+  document.getElementById('btn-retry').onclick = () => retrySection(sec);
+}
+
+function retrySection(sec) {
+  if (!confirm('Clear your answers for this section and retry?')) return;
+  // Clear answers for this section
+  sec.questions.forEach(q => { delete state.answers[q.id]; });
+  delete state.submitted[sec.id];
+  document.getElementById('score-card').classList.remove('show');
+  saveResults();
+  renderSection(state.currentSection);
+  renderSectionTabs();
+}
+
+function logErrors(sec) {
+  const errors = JSON.parse(localStorage.getItem('ielts_errors')||'[]');
+  sec.questions.forEach(q => {
+    const ans = state.answers[q.id];
+    let isCorrect = false;
+    if (q.type==='fill' && typeof ans==='string' && ans.trim().toLowerCase()===q.answer.toLowerCase()) isCorrect=true;
+    else if ((q.type==='mcq'||q.type==='tfng') && ans===q.answer) isCorrect=true;
+    if (!isCorrect) {
+      errors.push({
+        testId: state.test.id,
+        testTitle: state.test.title,
+        sectionLabel: sec.label,
+        question: q.text,
+        userAnswer: q.type==='mcq' ? (ans!==undefined ? q.options[ans] : '') : String(ans||''),
+        correctAnswer: q.type==='mcq' ? q.options[q.answer] : q.answer,
+        date: new Date().toISOString()
+      });
+    }
+  });
+  // Keep latest 200
+  localStorage.setItem('ielts_errors', JSON.stringify(errors.slice(-200)));
 }
 
 function showScore(sec) {

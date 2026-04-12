@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Writing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ink:#1a1a18;--ink2:#4a4a46;--ink3:#8a8a84;--rule:#d8d6cf;--rule2:#eceae3;--surface:#f5f3ed;--surface2:#faf9f5;--white:#fff;--accent:#1a4a7a;--accent2:#e8f0fa;--green:#1a5c35;--green2:#e6f4ec;--red:#8c2020;--red2:#fdf0f0;--amber:#7a4a00;--amber2:#fdf5e6;--r:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:var(--sans);background:var(--surface);color:var(--ink)}
+
+/* ── MODE SELECT SCREEN ── */
+#mode-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.mode-box{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:40px 36px;max-width:480px;width:100%}
+.mode-box h2{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:6px}
+.mode-box .sub{font-size:13px;color:var(--ink3);margin-bottom:28px;line-height:1.6}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.mode-card{border:1px solid var(--rule);border-radius:var(--r);padding:16px;cursor:pointer;text-align:left;background:transparent;font-family:var(--sans);transition:all .15s}
+.mode-card:hover{border-color:#aac4e0;background:var(--accent2)}
+.mode-card.selected{border-color:var(--accent);background:var(--accent2)}
+.mode-card h3{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.mode-card p{font-size:12px;color:var(--ink3);line-height:1.5}
+.mode-start{width:100%;margin-top:16px;padding:10px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--sans)}
+.mode-start:hover{opacity:.88}
+.mode-back{display:block;text-align:center;margin-top:12px;font-size:12px;color:var(--ink3);text-decoration:none}
+.mode-back:hover{color:var(--accent)}
+
+/* ── APP SHELL ── */
+#app{display:none;height:100vh;flex-direction:column}
+
+/* Top bar */
+#topbar{background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;flex-shrink:0;gap:12px}
+#topbar-left{display:flex;align-items:center;gap:12px}
+.back-btn{color:var(--ink3);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:4px}
+.back-btn:hover{color:var(--accent)}
+.hbar{width:1px;height:16px;background:var(--rule)}
+#test-title{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink2)}
+.task-tabs{display:flex;gap:2px}
+.task-tab{font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.task-tab:hover{color:var(--ink);background:var(--surface)}
+.task-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+#topbar-right{display:flex;align-items:center;gap:16px}
+#mode-badge{font-size:11px;padding:3px 9px;border-radius:10px;font-weight:500}
+.badge-exam{background:var(--red2);color:var(--red);border:1px solid #e0b0b0}
+.badge-practice{background:var(--green2);color:var(--green);border:1px solid #b0d8b8}
+#timer{font-size:18px;font-weight:500;letter-spacing:.05em;min-width:56px;text-align:right}
+#timer.warn{color:#c0392b}
+#timer.paused{color:var(--ink3)}
+
+/* ── MAIN LAYOUT ── */
+#main{flex:1;display:flex;overflow:hidden}
+
+/* Prompt panel */
+#prompt-panel{width:44%;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--rule);background:var(--white)}
+#prompt-header{padding:14px 24px 12px;border-bottom:1px solid var(--rule2);flex-shrink:0}
+#prompt-task-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:3px}
+#prompt-title{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--ink)}
+#prompt-body{flex:1;overflow-y:auto;padding:20px 24px}
+#prompt-text{font-family:var(--serif);font-size:15px;line-height:1.8;color:var(--ink);margin-bottom:18px}
+#prompt-img-wrap{margin-bottom:16px}
+#prompt-img{max-width:100%;border-radius:6px;border:1px solid var(--rule)}
+#prompt-img-cap{font-size:12px;color:var(--ink3);margin-top:6px;font-style:italic}
+.prompt-note{font-size:13px;color:var(--ink3);padding:10px 12px;background:var(--surface);border-radius:var(--r);border:1px solid var(--rule2);line-height:1.6}
+
+/* Writing panel */
+#writing-panel{flex:1;display:flex;flex-direction:column;background:var(--surface2)}
+#writing-header{padding:12px 20px;border-bottom:1px solid var(--rule);background:var(--white);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+#wc-display{font-size:13px;color:var(--ink3)}
+#wc-num{font-weight:500;color:var(--ink)}
+#wc-min{font-size:11px;margin-left:4px}
+.wc-ok{color:var(--green)}
+.wc-warn{color:var(--amber)}
+#writing-actions{display:flex;gap:8px;align-items:center}
+#pause-btn{font-size:12px;padding:4px 12px;border-radius:12px;border:1px solid var(--rule);background:transparent;cursor:pointer;color:var(--ink3);font-family:var(--sans)}
+#pause-btn:hover{border-color:var(--accent);color:var(--accent)}
+#save-indicator{font-size:11px;color:var(--green);opacity:0;transition:opacity .5s}
+#essay-area{flex:1;padding:24px 28px;font-family:var(--serif);font-size:15.5px;line-height:1.9;color:var(--ink);background:transparent;border:none;outline:none;resize:none;width:100%}
+#essay-area::placeholder{color:var(--ink3)}
+#writing-footer{padding:12px 20px;border-top:1px solid var(--rule);background:var(--white);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#writing-footer-info{font-size:12px;color:var(--ink3)}
+#finish-btn{padding:7px 20px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans)}
+#finish-btn:hover{opacity:.88}
+#finish-btn:disabled{opacity:.4;cursor:default}
+
+/* ── FINISH MODAL ── */
+#finish-modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.35);align-items:center;justify-content:center}
+#finish-modal.show{display:flex}
+.finish-box{background:var(--white);border-radius:12px;padding:32px 28px;width:420px;max-width:95vw;border:1px solid var(--rule)}
+.finish-box h2{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:8px}
+.finish-box p{font-size:13px;color:var(--ink3);margin-bottom:20px;line-height:1.6}
+.finish-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.finish-stat{background:var(--surface);border-radius:var(--r);padding:12px;text-align:center}
+.finish-stat .n{font-size:22px;font-weight:500;color:var(--accent)}
+.finish-stat .l{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.finish-actions{display:flex;gap:8px;justify-content:flex-end}
+.f-btn{padding:8px 18px;border-radius:var(--r);font-size:13px;cursor:pointer;border:1px solid var(--rule);background:transparent;color:var(--ink2);font-family:var(--sans)}
+.f-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+
+@media(max-width:768px){
+  #main{flex-direction:column}
+  #prompt-panel{width:100%;height:42vh;border-right:none;border-bottom:1px solid var(--rule)}
+  #writing-panel{height:58vh}
+}
+</style>
+</head>
+<body>
+
+<!-- Mode selection -->
+<div id="mode-screen">
+  <div class="mode-box">
+    <h2>Writing Practice</h2>
+    <div class="sub" id="mode-test-name">Select a mode to begin.</div>
+    <div class="mode-cards">
+      <button class="mode-card selected" id="mc-exam" onclick="selectMode('exam')">
+        <h3>Exam mode</h3>
+        <p>Strict 60-min timer. No saving. Closest to real test conditions.</p>
+      </button>
+      <button class="mode-card" id="mc-practice" onclick="selectMode('practice')">
+        <h3>Practice mode</h3>
+        <p>Draft auto-saved. Timer can be paused. Review at your own pace.</p>
+      </button>
+    </div>
+    <button class="mode-start" onclick="startWriting()">Start</button>
+    <a class="mode-back" href="tests.html">← Back to tests</a>
+  </div>
+</div>
+
+<!-- Main app -->
+<div id="app">
+  <div id="topbar">
+    <div id="topbar-left">
+      <a class="back-btn" href="tests.html">← Tests</a>
+      <div class="hbar"></div>
+      <div id="test-title">IELTS Writing</div>
+      <div class="task-tabs">
+        <button class="task-tab active" id="tab-t1" onclick="switchTask(1)">Task 1</button>
+        <button class="task-tab" id="tab-t2" onclick="switchTask(2)">Task 2</button>
+      </div>
+    </div>
+    <div id="topbar-right">
+      <span id="mode-badge">Exam</span>
+      <div id="timer">60:00</div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="prompt-panel">
+      <div id="prompt-header">
+        <div id="prompt-task-label">Task 1</div>
+        <div id="prompt-title"></div>
+      </div>
+      <div id="prompt-body">
+        <div id="prompt-img-wrap" style="display:none">
+          <img id="prompt-img" src="" alt="Task 1 chart or diagram">
+          <div id="prompt-img-cap"></div>
+        </div>
+        <div id="prompt-text"></div>
+        <div class="prompt-note" id="prompt-note"></div>
+      </div>
+    </div>
+
+    <div id="writing-panel">
+      <div id="writing-header">
+        <div id="wc-display">
+          <span id="wc-num">0</span> words
+          <span id="wc-min"></span>
+        </div>
+        <div id="writing-actions">
+          <span id="save-indicator">Saved</span>
+          <button id="pause-btn" style="display:none" onclick="togglePause()">Pause</button>
+        </div>
+      </div>
+      <textarea id="essay-area" placeholder="Begin writing here…" spellcheck="true"></textarea>
+      <div id="writing-footer">
+        <span id="writing-footer-info"></span>
+        <button id="finish-btn" onclick="openFinish()">Finish &amp; Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Finish modal -->
+<div id="finish-modal">
+  <div class="finish-box">
+    <h2>Writing submitted</h2>
+    <p id="finish-msg"></p>
+    <div class="finish-stats" id="finish-stats"></div>
+    <div class="finish-actions">
+      <button class="f-btn" onclick="closeFinish()">Keep editing</button>
+      <button class="f-btn primary" onclick="window.location.href='tests.html'">Back to tests</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const testId = params.get('test') || '';
+let testData = null;
+let selectedMode = 'exam';
+let currentTask = 1;
+let timerSecs = 3600;
+let timerInterval = null;
+let timerPaused = false;
+let drafts = { t1: '', t2: '' };
+let submitted = false;
+
+// ── LOAD TEST ────────────────────────────────────────────────────────────────
+async function loadTest() {
+  if (!testId) return;
+  try {
+    const r = await fetch('data/' + testId + '.json');
+    testData = await r.json();
+    document.getElementById('mode-test-name').textContent = testData.title || testData.id;
+  } catch(e) { testData = null; }
+}
+
+// ── MODE SELECT ──────────────────────────────────────────────────────────────
+function selectMode(m) {
+  selectedMode = m;
+  document.getElementById('mc-exam').classList.toggle('selected', m==='exam');
+  document.getElementById('mc-practice').classList.toggle('selected', m==='practice');
+}
+
+function startWriting() {
+  document.getElementById('mode-screen').style.display = 'none';
+  const app = document.getElementById('app');
+  app.style.display = 'flex';
+
+  // Mode badge
+  const badge = document.getElementById('mode-badge');
+  if (selectedMode === 'exam') {
+    badge.textContent = 'Exam'; badge.className = 'mode-badge badge-exam';
+  } else {
+    badge.textContent = 'Practice'; badge.className = 'mode-badge badge-practice';
+    document.getElementById('pause-btn').style.display = 'inline-block';
+    // Load saved draft
+    const saved = localStorage.getItem('ielts_writing_'+testId);
+    if (saved) {
+      const d = JSON.parse(saved);
+      drafts.t1 = d.t1 || '';
+      drafts.t2 = d.t2 || '';
+    }
+  }
+
+  renderTask(1);
+  startTimer();
+  document.getElementById('essay-area').addEventListener('input', onType);
+}
+
+// ── TIMER ────────────────────────────────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    if (timerPaused) return;
+    timerSecs = Math.max(0, timerSecs - 1);
+    updateTimerDisplay();
+    if (timerSecs === 0 && selectedMode === 'exam') openFinish();
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSecs/60), s = timerSecs%60;
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + (s<10?'0':'') + s;
+  el.className = timerPaused ? 'paused' : timerSecs < 300 ? 'warn' : '';
+}
+
+function togglePause() {
+  timerPaused = !timerPaused;
+  const btn = document.getElementById('pause-btn');
+  btn.textContent = timerPaused ? 'Resume' : 'Pause';
+  updateTimerDisplay();
+}
+
+// ── TASK RENDER ───────────────────────────────────────────────────────────────
+function renderTask(n) {
+  currentTask = n;
+  document.getElementById('tab-t1').classList.toggle('active', n===1);
+  document.getElementById('tab-t2').classList.toggle('active', n===2);
+
+  const task = testData && testData.writing && testData.writing['task'+n];
+  const label = n===1 ? 'Task 1 — minimum 150 words' : 'Task 2 — minimum 250 words';
+  const minWords = n===1 ? 150 : 250;
+
+  document.getElementById('prompt-task-label').textContent = 'Writing Task ' + n;
+  document.getElementById('prompt-title').textContent = task ? (task.title||'') : '';
+
+  // Image (Task 1 only)
+  const imgWrap = document.getElementById('prompt-img-wrap');
+  const imgEl = document.getElementById('prompt-img');
+  const capEl = document.getElementById('prompt-img-cap');
+  if (n===1 && task && task.image) {
+    imgWrap.style.display = 'block';
+    imgEl.src = task.image;
+    capEl.textContent = task.image_caption || '';
+  } else {
+    imgWrap.style.display = 'none';
+    imgEl.src = '';
+  }
+
+  document.getElementById('prompt-text').textContent = task ? (task.prompt||'No prompt loaded.') : 'No writing task loaded for this test.\n\nAdd a "writing" section to the JSON file to use this feature.';
+  document.getElementById('prompt-note').textContent = task ? label : '';
+
+  // Essay area
+  const area = document.getElementById('essay-area');
+  area.value = drafts['t'+n];
+  area.disabled = submitted;
+  updateWordCount(area.value, minWords);
+  updateFooterInfo(n, minWords);
+}
+
+function switchTask(n) {
+  // Save current draft
+  drafts['t'+currentTask] = document.getElementById('essay-area').value;
+  if (selectedMode === 'practice') saveDraft();
+  renderTask(n);
+}
+
+// ── TYPING ────────────────────────────────────────────────────────────────────
+let saveTimeout = null;
+function onType() {
+  const val = document.getElementById('essay-area').value;
+  drafts['t'+currentTask] = val;
+  const minWords = currentTask===1 ? 150 : 250;
+  updateWordCount(val, minWords);
+  updateFooterInfo(currentTask, minWords);
+  if (selectedMode === 'practice') {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => { saveDraft(); showSaveIndicator(); }, 1200);
+  }
+}
+
+function countWords(text) {
+  return text.trim().split(/\s+/).filter(w=>w.length>0).length;
+}
+
+function updateWordCount(text, min) {
+  const n = countWords(text);
+  const el = document.getElementById('wc-num');
+  const minEl = document.getElementById('wc-min');
+  el.textContent = n;
+  el.className = n >= min ? 'wc-ok' : n >= min*0.9 ? 'wc-warn' : '';
+  minEl.textContent = n >= min ? '✓ minimum reached' : `(minimum ${min})`;
+  minEl.style.color = n >= min ? 'var(--green)' : 'var(--ink3)';
+}
+
+function updateFooterInfo(n, min) {
+  const t1w = countWords(drafts.t1);
+  const t2w = countWords(drafts.t2);
+  document.getElementById('writing-footer-info').textContent = `Task 1: ${t1w} words · Task 2: ${t2w} words`;
+}
+
+function saveDraft() {
+  localStorage.setItem('ielts_writing_'+testId, JSON.stringify({ t1: drafts.t1, t2: drafts.t2, saved: new Date().toISOString() }));
+}
+
+function showSaveIndicator() {
+  const el = document.getElementById('save-indicator');
+  el.style.opacity = '1';
+  setTimeout(() => el.style.opacity='0', 1500);
+}
+
+// ── FINISH ────────────────────────────────────────────────────────────────────
+function openFinish() {
+  // Save current task draft
+  drafts['t'+currentTask] = document.getElementById('essay-area').value;
+  if (selectedMode === 'practice') saveDraft();
+
+  const t1w = countWords(drafts.t1);
+  const t2w = countWords(drafts.t2);
+  const elapsed = 3600 - timerSecs;
+  const em = Math.floor(elapsed/60), es = elapsed%60;
+
+  document.getElementById('finish-msg').textContent =
+    selectedMode === 'exam'
+      ? 'Your writing session has ended. Review your essays below.'
+      : 'Your draft has been saved. You can return and continue editing anytime.';
+
+  const statsEl = document.getElementById('finish-stats');
+  statsEl.innerHTML = `
+    <div class="finish-stat"><div class="n">${t1w}</div><div class="l">Task 1 words</div></div>
+    <div class="finish-stat"><div class="n">${t2w}</div><div class="l">Task 2 words</div></div>
+    <div class="finish-stat"><div class="n">${em}:${es<10?'0':''}${es}</div><div class="l">Time used</div></div>
+    <div class="finish-stat"><div class="n">${t1w+t2w}</div><div class="l">Total words</div></div>
+  `;
+
+  if (selectedMode === 'exam') {
+    submitted = true;
+    clearInterval(timerInterval);
+    // Mark as submitted in localStorage
+    localStorage.setItem('ielts_writing_'+testId, JSON.stringify({ t1: drafts.t1, t2: drafts.t2, submitted: true, date: new Date().toISOString() }));
+  }
+
+  document.getElementById('finish-modal').classList.add('show');
+}
+
+function closeFinish() {
+  document.getElementById('finish-modal').classList.remove('show');
+  if (!submitted) {
+    document.getElementById('essay-area').disabled = false;
+  }
+}
+
+loadTest();
+</script>
+</body>
+</html>

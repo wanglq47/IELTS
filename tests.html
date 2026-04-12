@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Tests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ink:#1a1a18;--ink2:#4a4a46;--ink3:#8a8a84;--rule:#d8d6cf;--rule2:#eceae3;--surface:#f5f3ed;--white:#fff;--accent:#1a4a7a;--accent2:#e8f0fa;--green:#1a5c35;--green2:#e6f4ec;--amber:#7a4a00;--amber2:#fdf5e6;--red:#8c2020;--red2:#fdf0f0;--r:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:var(--sans);background:var(--surface);color:var(--ink)}
+header{background:var(--white);border-bottom:1px solid var(--rule);padding:0 24px;height:52px;display:flex;align-items:center;gap:12px}
+.back{color:var(--ink3);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:4px}
+.back:hover{color:var(--accent)}
+.hbar{width:1px;height:16px;background:var(--rule)}
+.brand{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:36px 24px 80px}
+h1{font-family:var(--serif);font-size:24px;font-weight:600;margin-bottom:6px}
+.sub{font-size:13px;color:var(--ink3);margin-bottom:28px}
+
+/* Mode tabs */
+.mode-tabs{display:flex;gap:0;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;width:fit-content;margin-bottom:28px}
+.mode-tab{padding:8px 24px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--ink3);transition:all .15s;font-family:var(--sans)}
+.mode-tab.active{background:var(--accent);color:#fff}
+.mode-tab:not(.active):hover{background:var(--rule2);color:var(--ink)}
+
+/* Filter */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.fb{font-size:12px;font-weight:500;padding:4px 12px;border-radius:16px;border:1px solid var(--rule);background:transparent;color:var(--ink3);cursor:pointer;transition:all .12s;font-family:var(--sans)}
+.fb:hover{color:var(--ink);border-color:var(--ink3)}
+.fb.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.search{margin-left:auto;padding:5px 12px;border:1px solid var(--rule);border-radius:16px;font-size:13px;font-family:var(--sans);background:var(--white);color:var(--ink);outline:none;width:160px}
+.search:focus{border-color:var(--accent)}
+
+/* Book groups */
+.book-group{margin-bottom:28px}
+.book-title{font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule2);display:flex;align-items:center;gap:8px}
+.book-count{font-size:11px;padding:1px 7px;border-radius:8px;background:var(--surface);border:1px solid var(--rule);color:var(--ink3)}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+
+/* Test card */
+.test-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;text-decoration:none;display:block;transition:border-color .15s,box-shadow .12s}
+.test-card:hover{border-color:#aac4e0;box-shadow:0 2px 8px rgba(26,74,122,.07)}
+.tc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.tc-name{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink)}
+.tc-badge{font-size:10px;font-weight:500;padding:2px 6px;border-radius:8px;flex-shrink:0;margin-left:6px}
+.badge-done{background:var(--green2);color:var(--green);border:1px solid #b8dfc8}
+.badge-progress{background:var(--amber2);color:var(--amber);border:1px solid #e8d0a0}
+.tc-meta{font-size:11px;color:var(--ink3);margin-bottom:10px}
+.tc-bottom{display:flex;align-items:center;gap:8px}
+.tc-prog{flex:1;height:3px;background:var(--rule2);border-radius:2px;overflow:hidden}
+.tc-prog-fill{height:100%;border-radius:2px;background:var(--accent)}
+.tc-btn{font-size:11px;font-weight:500;padding:4px 12px;border-radius:12px;border:none;cursor:pointer;font-family:var(--sans);flex-shrink:0}
+.btn-start{background:var(--accent2);color:var(--accent)}
+.btn-resume{background:var(--amber2);color:var(--amber)}
+.btn-review{background:var(--green2);color:var(--green)}
+
+/* Error log */
+.error-panel{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);margin-top:32px}
+.error-panel-head{padding:14px 18px;border-bottom:1px solid var(--rule2);display:flex;align-items:center;justify-content:space-between}
+.error-panel-title{font-size:14px;font-weight:500}
+.error-clear{font-size:12px;color:var(--red);cursor:pointer;background:none;border:none;font-family:var(--sans)}
+.error-list{padding:0 18px}
+.error-item{padding:12px 0;border-bottom:1px solid var(--rule2);font-size:13px}
+.error-item:last-child{border-bottom:none}
+.error-q{color:var(--ink);margin-bottom:4px;line-height:1.5}
+.error-detail{font-size:12px;color:var(--ink3)}
+.error-detail span{margin-right:12px}
+.error-ans{color:var(--red)}
+.error-correct{color:var(--green)}
+.error-empty{padding:20px 18px;font-size:13px;color:var(--ink3);text-align:center}
+
+@media(max-width:520px){.test-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">← Home</a>
+  <div class="hbar"></div>
+  <div class="brand">IELTS Tests</div>
+</header>
+<main>
+  <h1>Tests</h1>
+  <div class="sub">Choose reading or writing, then select a book.</div>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-reading" onclick="setMode('reading')">Reading</button>
+    <button class="mode-tab" id="tab-writing" onclick="setMode('writing')">Writing</button>
+  </div>
+
+  <div class="filter-bar" id="filter-bar">
+    <button class="fb active" data-f="all">All</button>
+    <input class="search" id="search" placeholder="Search…" type="text" oninput="render()">
+  </div>
+
+  <div id="test-list"></div>
+
+  <div class="error-panel" id="error-panel" style="display:none">
+    <div class="error-panel-head">
+      <span class="error-panel-title">Error Log</span>
+      <button class="error-clear" onclick="clearErrors()">Clear all</button>
+    </div>
+    <div id="error-list"></div>
+  </div>
+</main>
+
+<script>
+let mode = 'reading';
+let tests = [];
+let writingTests = [];
+let filterBook = 'all';
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('tab-reading').classList.toggle('active', m==='reading');
+  document.getElementById('tab-writing').classList.toggle('active', m==='writing');
+  filterBook = 'all';
+  document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('active',b.dataset.f==='all'));
+  render();
+}
+
+function getResults(testId) {
+  const all = JSON.parse(localStorage.getItem('ielts_results')||'[]');
+  const mine = all.filter(r=>r.testId===testId);
+  return mine.length ? mine[mine.length-1] : null;
+}
+
+function getWritingDrafts(testId) {
+  return JSON.parse(localStorage.getItem('ielts_writing_'+testId)||'null');
+}
+
+async function loadData() {
+  try {
+    const r = await fetch('data/index.json');
+    const all = await r.json();
+    tests = all.filter(t=>!t.type||t.type==='reading');
+    writingTests = all.filter(t=>t.type==='writing');
+  } catch(e){ tests=[]; writingTests=[]; }
+  render();
+}
+
+function render() {
+  const src = mode==='reading' ? tests : writingTests;
+  const q = document.getElementById('search').value.toLowerCase();
+
+  // Build book filters
+  const books = [...new Set(src.map(t=>t.book))].sort((a,b)=>{
+    const na=parseInt(a.replace(/\D/g,'')), nb=parseInt(b.replace(/\D/g,''));
+    return isNaN(na)||isNaN(nb)?a.localeCompare(b):na-nb;
+  });
+  const bar = document.getElementById('filter-bar');
+  bar.querySelectorAll('[data-f]:not([data-f="all"])').forEach(b=>b.remove());
+  const search = document.getElementById('search');
+  books.forEach(book=>{
+    const btn=document.createElement('button');
+    btn.className='fb'+(filterBook===book?' active':'');
+    btn.dataset.f=book; btn.textContent=book;
+    btn.onclick=()=>{filterBook=book;document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('active',b.dataset.f===book));render()};
+    bar.insertBefore(btn,search);
+  });
+
+  let visible = src;
+  if(filterBook!=='all') visible=visible.filter(t=>t.book===filterBook);
+  if(q) visible=visible.filter(t=>(t.title+t.book+t.test).toLowerCase().includes(q));
+
+  const listEl=document.getElementById('test-list');
+  listEl.innerHTML='';
+  if(!visible.length){listEl.innerHTML='<p style="color:var(--ink3);font-size:14px;padding:24px 0">No tests found.</p>';return;}
+
+  const grouped={};
+  visible.forEach(t=>{if(!grouped[t.book])grouped[t.book]=[];grouped[t.book].push(t);});
+
+  Object.entries(grouped).sort((a,b)=>{
+    const na=parseInt(a[0].replace(/\D/g,'')),nb=parseInt(b[0].replace(/\D/g,''));
+    return isNaN(na)||isNaN(nb)?a[0].localeCompare(b[0]):na-nb;
+  }).forEach(([book,bookTests])=>{
+    const g=document.createElement('div'); g.className='book-group';
+    const bt=document.createElement('div'); bt.className='book-title';
+    bt.innerHTML=`${book} <span class="book-count">${bookTests.length}</span>`;
+    g.appendChild(bt);
+    const grid=document.createElement('div'); grid.className='test-grid';
+
+    bookTests.forEach(t=>{
+      const result = mode==='reading' ? getResults(t.id) : getWritingDrafts(t.id);
+      const subCount = mode==='reading' ? Object.keys((result&&result.submitted)||{}).length : 0;
+      const totalSecs = t.sections||3;
+      const isDone = mode==='reading' ? subCount>=totalSecs : (result&&result.submitted);
+      const inProg = mode==='reading' ? (subCount>0&&!isDone) : (result&&!result.submitted);
+
+      const card=document.createElement('a');
+      card.className='test-card';
+      card.href=mode==='reading'?`reading.html?test=${t.id}`:`writing.html?test=${t.id}`;
+
+      const top=document.createElement('div'); top.className='tc-top';
+      const name=document.createElement('div'); name.className='tc-name'; name.textContent=t.test||t.title;
+      top.appendChild(name);
+      if(isDone){const b=document.createElement('span');b.className='tc-badge badge-done';b.textContent='Done';top.appendChild(b);}
+      else if(inProg){const b=document.createElement('span');b.className='tc-badge badge-progress';b.textContent='In progress';top.appendChild(b);}
+
+      const meta=document.createElement('div'); meta.className='tc-meta';
+      meta.textContent=mode==='reading'?`${totalSecs} sections · ${t.questions||'—'} questions`:`Task 1 + Task 2`;
+
+      const bottom=document.createElement('div'); bottom.className='tc-bottom';
+      if(mode==='reading'&&(inProg||isDone)){
+        const prog=document.createElement('div'); prog.className='tc-prog';
+        const fill=document.createElement('div'); fill.className='tc-prog-fill';
+        fill.style.width=Math.round(subCount/totalSecs*100)+'%';
+        prog.appendChild(fill); bottom.appendChild(prog);
+      } else { bottom.appendChild(document.createElement('div')); }
+
+      const btn=document.createElement('button');
+      btn.className='tc-btn '+(isDone?'btn-review':inProg?'btn-resume':'btn-start');
+      btn.textContent=isDone?'Review':inProg?'Resume':'Start';
+      btn.onclick=e=>{e.preventDefault();window.location.href=card.href;};
+      bottom.appendChild(btn);
+
+      card.appendChild(top); card.appendChild(meta); card.appendChild(bottom);
+      grid.appendChild(card);
+    });
+    g.appendChild(grid); listEl.appendChild(g);
+  });
+
+  // Error log (reading only)
+  const errPanel=document.getElementById('error-panel');
+  if(mode==='reading'){
+    errPanel.style.display='block';
+    renderErrors();
+  } else {
+    errPanel.style.display='none';
+  }
+}
+
+function renderErrors() {
+  const errors=JSON.parse(localStorage.getItem('ielts_errors')||'[]');
+  const el=document.getElementById('error-list');
+  if(!errors.length){el.innerHTML='<div class="error-empty">No errors logged yet.</div>';return;}
+  el.innerHTML='';
+  // Show latest 30
+  [...errors].reverse().slice(0,30).forEach(e=>{
+    const row=document.createElement('div'); row.className='error-item';
+    const q=document.createElement('div'); q.className='error-q'; q.textContent=e.question;
+    const detail=document.createElement('div'); detail.className='error-detail';
+    detail.innerHTML=`<span>${e.testTitle||''} · ${e.sectionLabel||''}</span><span class="error-ans">Your answer: ${e.userAnswer||'(blank)'}</span><span class="error-correct">Correct: ${e.correctAnswer}</span>`;
+    row.appendChild(q); row.appendChild(detail);
+    el.appendChild(row);
+  });
+}
+
+function clearErrors(){
+  if(confirm('Clear all error records?')){
+    localStorage.removeItem('ielts_errors');
+    renderErrors();
+  }
+}
+
+document.querySelector('[data-f="all"]').onclick=()=>{filterBook='all';document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('active',b.dataset.f==='all'));render();};
+
+loadData();
+</script>
+</body>
+</html>
