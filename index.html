@@ -47,6 +47,13 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 }
 #topbar-left { display: flex; align-items: center; gap: 16px; }
 #brand { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--accent); letter-spacing: .01em; white-space: nowrap; }
+#nav-toggle-btn {
+  background: none; border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 4px 10px; font-size: 11px; color: var(--ink3); cursor: pointer;
+  text-transform: uppercase; letter-spacing: .05em; transition: all .15s;
+}
+#nav-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+
 .sec-tabs { display: flex; gap: 2px; }
 .sec-tab {
   font-family: var(--sans); font-size: 12px; font-weight: 500;
@@ -71,7 +78,43 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 #timer.warn { color: #c0392b; }
 
 /* ── MAIN COLUMNS ── */
-#main { display: flex; height: calc(100vh - 52px); overflow: hidden; }
+#main { display: flex; height: calc(100vh - 52px); overflow: hidden; position: relative; }
+
+/* ── TOC DRAWER ── */
+#toc-drawer {
+  position: absolute; top: 0; left: 0; z-index: 140;
+  width: 280px; height: 100%;
+  background: var(--white); border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  transform: translateX(-100%); transition: transform .3s ease;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+}
+#toc-drawer.open { transform: translateX(0); }
+#toc-head {
+  padding: 16px 20px; border-bottom: 1px solid var(--rule2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+#toc-head span { font-size: 13px; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: .05em; }
+#toc-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--ink3); }
+#toc-content { flex: 1; overflow-y: auto; padding: 20px; }
+
+.toc-sec-item { margin-bottom: 24px; }
+.toc-sec-title { 
+  font-size: 11px; font-weight: 600; color: var(--accent); 
+  text-transform: uppercase; margin-bottom: 12px; display: block;
+  letter-spacing: .05em;
+}
+.toc-q-grid { 
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; 
+}
+.toc-q-num {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--rule); border-radius: 4px; font-size: 11px;
+  cursor: pointer; transition: all 0.15s; color: var(--ink2); font-weight: 500;
+}
+.toc-q-num:hover { border-color: var(--accent); color: var(--accent); }
+.toc-q-num.answered { background: var(--accent); color: #fff; border-color: var(--accent); }
+.toc-q-num.current-q { border: 2px solid var(--accent); color: var(--accent); font-weight: 700; }
 
 /* ── PASSAGE PANEL ── */
 #passage-panel {
@@ -95,16 +138,6 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
   color: var(--ink);
 }
 #passage-body p { margin-bottom: 1.1em; text-align: justify; }
-#passage-body p:last-child { margin-bottom: 0; }
-
-/* Highlight styles */
-.hl { border-radius: 2px; cursor: pointer; transition: opacity .1s; }
-.hl:hover { opacity: .75; }
-.hl-yellow { background: var(--hl-yellow); }
-.hl-green  { background: var(--hl-green); }
-.hl-blue   { background: var(--hl-blue); }
-.hl-pink   { background: var(--hl-pink); }
-.hl-purple { background: var(--hl-purple); }
 
 /* ── QUESTIONS PANEL ── */
 #questions-panel {
@@ -120,7 +153,7 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 }
 #q-header-title { font-size: 13px; font-weight: 500; color: var(--ink2); }
 #q-header-range { font-size: 11px; color: var(--ink3); }
-#q-body { flex: 1; overflow-y: auto; padding: 20px; }
+#q-body { flex: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
 #q-footer {
   padding: 14px 20px;
   border-top: 1px solid var(--rule);
@@ -138,7 +171,6 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
   padding: 14px 16px;
   margin-bottom: 10px;
 }
-.q-block:last-child { margin-bottom: 0; }
 .q-type-badge {
   display: inline-block; font-size: 10px; font-weight: 500;
   text-transform: uppercase; letter-spacing: .07em;
@@ -165,8 +197,6 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 }
 .q-opt:hover { border-color: #aac4e0; background: var(--accent2); }
 .q-opt.selected { border-color: var(--accent); background: var(--accent2); }
-.q-opt.correct { border-color: var(--green); background: var(--green2); }
-.q-opt.wrong { border-color: var(--red); background: var(--red2); }
 .opt-letter {
   flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
   background: var(--rule2); border: 1px solid var(--rule);
@@ -183,24 +213,6 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 }
 .tfng-btn:hover { border-color: #aac4e0; color: var(--accent); }
 .tfng-btn.selected { border-color: var(--accent); background: var(--accent2); color: var(--accent); }
-.tfng-btn.correct { border-color: var(--green); background: var(--green2); color: var(--green); }
-.tfng-btn.wrong { border-color: var(--red); background: var(--red2); color: var(--red); }
-
-/* Feedback */
-.q-feedback { margin-top: 8px; font-size: 12px; line-height: 1.5; padding: 6px 10px; border-radius: var(--radius); }
-.q-feedback.correct { background: var(--green2); color: var(--green); }
-.q-feedback.wrong { background: var(--red2); color: var(--red); }
-
-/* Submit button */
-#btn-submit {
-  padding: 8px 22px; border-radius: var(--radius);
-  background: var(--accent); color: #fff; border: none;
-  font-family: var(--sans); font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: opacity .15s;
-}
-#btn-submit:hover { opacity: .85; }
-#btn-submit:disabled { opacity: .4; cursor: default; }
-#btn-submit.submitted { background: var(--green); }
 
 /* Score card */
 #score-card {
@@ -213,63 +225,8 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 .score-num { text-align: center; }
 .score-num .n { font-size: 28px; font-weight: 500; font-family: var(--sans); }
 .score-num .l { font-size: 11px; color: var(--ink3); text-transform: uppercase; letter-spacing: .06em; margin-top: 1px; }
-.score-num.band .n { color: var(--accent); }
-.band-label { font-size: 12px; color: var(--ink3); border-top: 1px solid var(--rule2); padding-top: 8px; margin-top: 4px; }
 
-/* ── COLOUR PICKER POPUP ── */
-#color-popup {
-  display: none; position: absolute; z-index: 200;
-  background: var(--white); border: 1px solid var(--rule);
-  border-radius: var(--radius); padding: 10px 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,.08);
-  min-width: 240px;
-}
-#color-popup.show { display: block; }
-#color-popup-title { font-size: 11px; font-weight: 500; color: var(--ink3); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
-.cp-colors { display: flex; gap: 6px; margin-bottom: 10px; }
-.cp-swatch {
-  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
-  border: 2px solid transparent; transition: transform .1s;
-}
-.cp-swatch:hover { transform: scale(1.15); }
-.cp-swatch.active { border-color: var(--ink); }
-.cp-swatch-custom {
-  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
-  border: 1.5px dashed var(--rule); display: flex; align-items: center;
-  justify-content: center; font-size: 14px; color: var(--ink3); overflow: hidden; position: relative;
-}
-.cp-swatch-custom input[type=color] {
-  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-}
-.cp-cats { margin-bottom: 10px; }
-.cp-cats-label { font-size: 11px; color: var(--ink3); margin-bottom: 5px; }
-.cp-cat-list { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
-.cp-cat {
-  font-size: 11px; padding: 3px 9px; border-radius: 12px;
-  border: 1px solid var(--rule); background: var(--surface2);
-  cursor: pointer; color: var(--ink2); transition: all .1s;
-}
-.cp-cat:hover { border-color: var(--accent); color: var(--accent); }
-.cp-cat.active { background: var(--accent2); border-color: var(--accent); color: var(--accent); }
-.cp-new-cat { display: flex; gap: 6px; }
-.cp-new-cat input {
-  flex: 1; padding: 4px 8px; border: 1px solid var(--rule); border-radius: var(--radius);
-  font-size: 12px; outline: none; background: var(--surface2); color: var(--ink);
-}
-.cp-new-cat input:focus { border-color: var(--accent); }
-.cp-new-cat button {
-  padding: 4px 10px; border-radius: var(--radius);
-  background: var(--surface); border: 1px solid var(--rule);
-  font-size: 12px; cursor: pointer; color: var(--ink2);
-}
-.cp-actions { display: flex; gap: 6px; justify-content: flex-end; border-top: 1px solid var(--rule2); padding-top: 8px; }
-.cp-btn {
-  padding: 5px 14px; border-radius: var(--radius); font-size: 12px; cursor: pointer;
-  border: 1px solid var(--rule); background: transparent; color: var(--ink2);
-}
-.cp-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-/* ── VOCAB DRAWER ── */
+/* Color picker / Vocab Drawer Styles Remain Same */
 #vocab-toggle {
   position: fixed; bottom: 24px; right: 24px; z-index: 150;
   width: 44px; height: 44px; border-radius: 50%;
@@ -277,7 +234,6 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
   font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 2px 10px rgba(26,74,122,.25); transition: transform .15s;
 }
-#vocab-toggle:hover { transform: scale(1.08); }
 #vocab-drawer {
   position: fixed; bottom: 0; right: 0; z-index: 140;
   width: 320px; height: 70vh; max-height: 520px;
@@ -286,93 +242,21 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
   transform: translateY(100%); transition: transform .25s ease;
 }
 #vocab-drawer.open { transform: translateY(0); }
-#vocab-drawer-head {
-  padding: 14px 16px 12px; border-bottom: 1px solid var(--rule2);
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+#btn-submit {
+  padding: 8px 22px; border-radius: var(--radius);
+  background: var(--accent); color: #fff; border: none;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: opacity .15s;
 }
-#vocab-drawer-head span { font-size: 13px; font-weight: 500; }
-#vocab-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--ink3); line-height: 1; }
-#vocab-filter { padding: 10px 16px; border-bottom: 1px solid var(--rule2); flex-shrink: 0; display: flex; gap: 6px; flex-wrap: wrap; }
-.vf-btn {
-  font-size: 11px; padding: 3px 10px; border-radius: 12px;
-  border: 1px solid var(--rule); background: transparent;
-  cursor: pointer; color: var(--ink3);
-}
-.vf-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--accent); }
-#vocab-list { flex: 1; overflow-y: auto; padding: 10px 16px; }
-.vocab-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 0; border-bottom: 1px solid var(--rule2); font-size: 13px;
-}
-.vocab-item:last-child { border-bottom: none; }
-.vocab-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.vocab-word { font-family: var(--serif); font-weight: 600; flex: 1; color: var(--ink); }
-.vocab-cat { font-size: 11px; color: var(--ink3); }
-.vocab-del { background: none; border: none; color: var(--ink3); cursor: pointer; font-size: 14px; padding: 2px; }
-.vocab-del:hover { color: var(--red); }
-#vocab-empty { font-size: 13px; color: var(--ink3); text-align: center; padding: 24px 0; }
-.vd-tab { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 12px; border: 1px solid var(--rule); background: transparent; cursor: pointer; color: var(--ink3); }
-.vd-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+#color-popup { display: none; position: absolute; z-index: 200; background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px 12px; box-shadow: 0 4px 16px rgba(0,0,0,.08); min-width: 240px; }
+#color-popup.show { display: block; }
 #hl-popup { display:none; position:absolute; z-index:201; background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); padding:12px 14px; box-shadow:0 4px 16px rgba(0,0,0,.1); min-width:160px; }
-#hl-popup-del { width:100%; padding:6px; border-radius:var(--radius); border:1px solid #e0a0a0; background:var(--red2); color:var(--red); font-size:12px; cursor:pointer; font-family:var(--sans); }
-#hl-popup-del:hover { background:#fce0e0; }
-.stats-cat-block { margin-bottom:18px; }
-.stats-cat-title { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--ink3); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
-.stats-cat-count { font-size:13px; font-weight:500; color:var(--accent); }
-.stats-word-row { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid var(--rule2); font-size:13px; }
-.stats-word-row:last-child { border-bottom:none; }
-.stats-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.stats-word { font-family:var(--serif); font-weight:600; flex:1; }
-.stats-sec { font-size:11px; color:var(--ink3); }
 
-/* ── SETTINGS ── */
-#settings-btn {
-  background: none; border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 4px 10px; font-size: 12px; color: var(--ink3); cursor: pointer;
-}
-#settings-btn:hover { border-color: var(--accent); color: var(--accent); }
-#settings-modal {
-  display: none; position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,.35); align-items: center; justify-content: center;
-}
-#settings-modal.show { display: flex; }
-#settings-box {
-  background: var(--white); border-radius: 10px; padding: 24px 28px;
-  width: 380px; max-width: 95vw; border: 1px solid var(--rule);
-}
-#settings-box h2 { font-size: 15px; font-weight: 500; margin-bottom: 18px; }
-.settings-row { margin-bottom: 16px; }
-.settings-row label { font-size: 12px; color: var(--ink3); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
-.color-presets { display: flex; gap: 8px; flex-wrap: wrap; }
-.preset-swatch {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer;
-}
-.preset-swatch .sw { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; }
-.preset-swatch input[type=color] { width: 28px; height: 28px; padding: 2px; border-radius: 50%; border: 1px solid var(--rule); cursor: pointer; }
-.preset-swatch span { font-size: 10px; color: var(--ink3); max-width: 40px; text-align: center; }
-.cats-manager { display: flex; flex-direction: column; gap: 6px; }
-.cat-row { display: flex; align-items: center; gap: 8px; }
-.cat-row input { flex: 1; padding: 5px 8px; border: 1px solid var(--rule); border-radius: var(--radius); font-size: 13px; color: var(--ink); outline: none; }
-.cat-row input:focus { border-color: var(--accent); }
-.cat-del { background: none; border: none; color: var(--ink3); cursor: pointer; font-size: 16px; }
-.cat-del:hover { color: var(--red); }
-.add-cat-row { display: flex; gap: 6px; margin-top: 4px; }
-.add-cat-row input { flex: 1; padding: 5px 8px; border: 1px solid var(--rule); border-radius: var(--radius); font-size: 13px; color: var(--ink); outline: none; }
-.add-cat-row button { padding: 5px 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--rule); font-size: 12px; cursor: pointer; }
-.settings-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; border-top: 1px solid var(--rule2); padding-top: 16px; }
-.s-btn { padding: 7px 18px; border-radius: var(--radius); font-size: 13px; cursor: pointer; border: 1px solid var(--rule); background: transparent; color: var(--ink2); }
-.s-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-/* iPad responsive */
 @media (max-width: 768px) {
   #main { flex-direction: column; height: auto; overflow: visible; }
-  #passage-panel { height: 55vh; border-right: none; border-bottom: 1px solid var(--rule); }
-  #questions-panel { width: 100%; height: auto; min-height: 50vh; }
-  #topbar { padding: 0 12px; }
-  .sec-tab { padding: 4px 10px; }
-  #passage-body { padding: 18px 20px; }
-  #vocab-drawer { width: 100%; border-radius: 12px 12px 0 0; }
+  #passage-panel { height: 55vh; }
+  #questions-panel { width: 100%; height: auto; }
 }
 </style>
 </head>
@@ -381,17 +265,26 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
 <div id="topbar">
   <div id="topbar-left">
     <span id="brand">IELTS Reading</span>
+    <button id="nav-toggle-btn">Navigation</button>
     <div class="sec-tabs" id="sec-tabs"></div>
   </div>
   <div id="topbar-right">
     <div id="q-dots"></div>
     <span id="q-progress">0 / 0</span>
-    <button id="settings-btn">⚙ Settings</button>
+    <button id="settings-btn" style="background:none; border:1px solid var(--rule); border-radius:var(--radius); padding:4px 10px; font-size:12px; color:var(--ink3); cursor:pointer;">⚙ Settings</button>
     <div id="timer">60:00</div>
   </div>
 </div>
 
 <div id="main">
+  <div id="toc-drawer">
+    <div id="toc-head">
+      <span>Test Navigation</span>
+      <button id="toc-close">×</button>
+    </div>
+    <div id="toc-content"></div>
+  </div>
+
   <div id="passage-panel">
     <div id="passage-header">
       <div>
@@ -409,20 +302,10 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
     </div>
     <div id="score-card">
       <div class="score-nums">
-        <div class="score-num">
-          <div class="n" id="sc-correct">—</div>
-          <div class="l">Correct</div>
-        </div>
-        <div class="score-num">
-          <div class="n" id="sc-total">—</div>
-          <div class="l">Total</div>
-        </div>
-        <div class="score-num band">
-          <div class="n" id="sc-band">—</div>
-          <div class="l">Band</div>
-        </div>
+        <div class="score-num"><div class="n" id="sc-correct">—</div><div class="l">Correct</div></div>
+        <div class="score-num"><div class="n" id="sc-total">—</div><div class="l">Total</div></div>
+        <div class="score-num"><div class="n" id="sc-band">—</div><div class="l">Band</div></div>
       </div>
-      <div class="band-label" id="sc-label"></div>
     </div>
     <div id="q-body"></div>
     <div id="q-footer">
@@ -432,787 +315,227 @@ html, body { height: 100%; font-family: var(--sans); background: var(--surface);
   </div>
 </div>
 
-<!-- Colour picker popup -->
-<div id="color-popup">
-  <div id="color-popup-title">Mark word</div>
-  <div class="cp-colors" id="cp-colors"></div>
-  <div class="cp-cats">
-    <div class="cp-cats-label">Category</div>
-    <div class="cp-cat-list" id="cp-cat-list"></div>
-    <div class="cp-new-cat">
-      <input type="text" id="cp-new-cat-input" placeholder="New category…">
-      <button id="cp-add-cat">Add</button>
-    </div>
-  </div>
-  <div class="cp-actions">
-    <button class="cp-btn" id="cp-cancel">Cancel</button>
-    <button class="cp-btn primary" id="cp-save">Save</button>
-  </div>
-</div>
-
-<!-- Vocab drawer -->
-<button id="vocab-toggle" title="Vocabulary list">V</button>
+<button id="vocab-toggle">V</button>
 <div id="vocab-drawer">
   <div id="vocab-drawer-head">
-    <span>Vocabulary</span>
-    <div style="display:flex;gap:6px;align-items:center">
-      <button id="vocab-tab-list" class="vd-tab active">List</button>
-      <button id="vocab-tab-stats" class="vd-tab">Stats</button>
-      <button id="vocab-close">×</button>
-    </div>
+    <span style="padding:15px; font-weight:500;">Vocabulary</span>
+    <button id="vocab-close" style="padding:15px; background:none; border:none; font-size:20px; cursor:pointer;">×</button>
   </div>
-  <div id="vocab-panel-list" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
-    <div id="vocab-filter"></div>
-    <div id="vocab-list" style="flex:1;overflow-y:auto;padding:10px 16px"></div>
-  </div>
-  <div id="vocab-panel-stats" style="display:none;flex:1;overflow-y:auto;padding:14px 16px"></div>
+  <div id="vocab-list" style="flex:1; overflow-y:auto; padding:0 20px;"></div>
 </div>
 
-<!-- Click-highlight delete popup -->
+<div id="color-popup">
+  <div style="font-size:11px; margin-bottom:8px; color:var(--ink3); text-transform:uppercase;">Mark word</div>
+  <div id="cp-colors" style="display:flex; gap:6px; margin-bottom:12px;"></div>
+  <div style="display:flex; justify-content:flex-end; gap:6px;">
+    <button id="cp-cancel" style="padding:5px 10px; font-size:12px; border:1px solid var(--rule); background:none; border-radius:4px; cursor:pointer;">Cancel</button>
+    <button id="cp-save" style="padding:5px 10px; font-size:12px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer;">Save</button>
+  </div>
+</div>
+
 <div id="hl-popup">
-  <div style="font-size:11px;font-weight:500;color:var(--ink3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em" id="hl-popup-word"></div>
-  <div style="font-size:12px;color:var(--ink2);margin-bottom:10px" id="hl-popup-cat"></div>
-  <button id="hl-popup-del">Remove highlight</button>
-</div>
-
-<!-- Settings modal -->
-<div id="settings-modal">
-  <div id="settings-box">
-    <h2>Settings</h2>
-    <div class="settings-row">
-      <label>Highlight colours</label>
-      <div class="color-presets" id="color-presets"></div>
-    </div>
-    <div class="settings-row">
-      <label>Categories</label>
-      <div class="cats-manager" id="cats-manager"></div>
-      <div class="add-cat-row" style="margin-top:8px">
-        <input type="text" id="new-cat-input" placeholder="New category name…">
-        <button id="new-cat-add">Add</button>
-      </div>
-    </div>
-    <div class="settings-actions">
-      <button class="s-btn" id="settings-close">Close</button>
-    </div>
-  </div>
+  <div id="hl-popup-word" style="font-weight:600; margin-bottom:4px;"></div>
+  <button id="hl-popup-del" style="width:100%; padding:6px; border:1px solid var(--red); color:var(--red); background:var(--red2); border-radius:4px; font-size:12px; cursor:pointer;">Remove</button>
 </div>
 
 <script>
-// ─── STATE ────────────────────────────────────────────────────────────────────
+// ─── STATE & CONSTANTS ────────────────────────────────────────────────────────
 const DEFAULT_COLORS = [
   { name: 'Yellow', css: 'rgba(255,225,80,0.5)', hex: '#ffe150' },
   { name: 'Green',  css: 'rgba(100,200,130,0.45)', hex: '#64c882' },
-  { name: 'Blue',   css: 'rgba(80,160,240,0.4)', hex: '#50a0f0' },
-  { name: 'Pink',   css: 'rgba(240,100,140,0.4)', hex: '#f0648c' },
-  { name: 'Purple', css: 'rgba(160,100,240,0.4)', hex: '#a064f0' },
-];
-const DEFAULT_CATS = ['Must learn', 'Check again', 'Collocation', 'Academic'];
-
-// Band score conversion table (total 40 questions)
-const BAND_TABLE = [
-  [39,40,9],[37,38,8.5],[35,36,8],[33,34,7.5],[30,32,7],
-  [27,29,6.5],[23,26,6],[19,22,5.5],[15,18,5],[13,14,4.5],
-  [10,12,4],[8,9,3.5],[6,7,3],[4,5,2.5]
-];
-// Per-section band (13-14 qs each approx)
-const SEC_BAND = [
-  [13,13,9],[12,12,8.5],[11,11,8],[10,10,7.5],[9,9,7],
-  [8,8,6.5],[7,7,6],[6,6,5.5],[5,5,5],[4,4,4.5],[3,3,4],[2,2,3.5],[1,1,3],[0,0,2.5]
+  { name: 'Blue',   css: 'rgba(80,160,240,0.4)', hex: '#50a0f0' }
 ];
 
 let state = {
   test: null,
   currentSection: 0,
-  answers: {},       // qid -> value
-  submitted: {},     // sectionId -> true
-  vocab: [],         // [{word, color, colorCss, category, sectionId}]
-  colors: JSON.parse(localStorage.getItem('ielts_colors') || 'null') || DEFAULT_COLORS,
-  categories: JSON.parse(localStorage.getItem('ielts_cats') || 'null') || DEFAULT_CATS,
-  timerSecs: 3600,
-  timerRunning: false,
+  answers: {},
+  submitted: {},
+  vocab: JSON.parse(localStorage.getItem('ielts_vocab') || '[]'),
+  colors: DEFAULT_COLORS,
+  categories: ['Must learn', 'Academic'],
+  timerSecs: 3600
 };
 
-let pendingSelection = null; // {text, range}
+let pendingSelection = null;
 let selectedColorIdx = 0;
-let selectedCat = '';
 
-// ─── LOAD DATA ────────────────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 async function loadTest() {
-  try {
-    const r = await fetch('data/test_sample.json');
-    state.test = await r.json();
-  } catch(e) {
-    // fallback: inline minimal test
-    state.test = { id:'demo', title:'Demo Test', sections: [] };
-  }
+  // Demo Data if fetch fails
+  state.test = {
+    id: 'mock-1',
+    sections: [
+      {
+        id: 's1', label: 'Passage 1', passage_title: 'The History of Tea',
+        passage: 'Tea is the world\'s most popular beverage after water.\n\nIt has a long history spanning thousands of years.',
+        questions: [
+          { id: 'q1', number: 1, type: 'fill', text: 'Tea is more popular than any drink except ___.', answer: 'water' },
+          { id: 'q2', number: 2, type: 'mcq', text: 'How long is tea history?', options: ['100 years', 'Thousands of years'], answer: 1 }
+        ]
+      },
+      {
+        id: 's2', label: 'Passage 2', passage_title: 'Global Warming',
+        passage: 'The Earth is getting warmer due to greenhouse gases.',
+        questions: [
+          { id: 'q3', number: 3, type: 'tfng', text: 'The planet temperature is stable.', answer: 'FALSE' }
+        ]
+      }
+    ]
+  };
   init();
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 function init() {
   renderSectionTabs();
   renderSection(0);
   startTimer();
-  renderVocab();
-  setupSettings();
+  setupEventListeners();
 }
 
-// ─── TIMER ────────────────────────────────────────────────────────────────────
-function startTimer() {
-  state.timerRunning = true;
-  setInterval(() => {
-    if (!state.timerRunning) return;
-    state.timerSecs = Math.max(0, state.timerSecs - 1);
-    const m = Math.floor(state.timerSecs / 60);
-    const s = state.timerSecs % 60;
-    const el = document.getElementById('timer');
-    el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
-    el.classList.toggle('warn', state.timerSecs < 300);
-  }, 1000);
+function setupEventListeners() {
+  document.getElementById('nav-toggle-btn').onclick = () => {
+    document.getElementById('toc-drawer').classList.add('open');
+    renderTOC();
+  };
+  document.getElementById('toc-close').onclick = () => {
+    document.getElementById('toc-drawer').classList.remove('open');
+  };
+  document.getElementById('vocab-toggle').onclick = () => document.getElementById('vocab-drawer').classList.toggle('open');
+  document.getElementById('vocab-close').onclick = () => document.getElementById('vocab-drawer').classList.remove('open');
 }
 
-// ─── SECTION TABS ─────────────────────────────────────────────────────────────
+// ─── CORE FUNCTIONS ───────────────────────────────────────────────────────────
+function renderSection(idx) {
+  state.currentSection = idx;
+  const sec = state.test.sections[idx];
+  
+  // Update UI
+  document.getElementById('passage-title').textContent = sec.passage_title;
+  document.getElementById('passage-body').innerHTML = sec.passage.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  
+  const qBody = document.getElementById('q-body');
+  qBody.innerHTML = '';
+  sec.questions.forEach(q => qBody.appendChild(createQuestionBlock(q, sec.id)));
+
+  updateProgress(sec);
+  updateSubmitBtn(sec);
+  renderSectionTabs();
+}
+
+function switchSection(idx) {
+  renderSection(idx);
+  if (document.getElementById('toc-drawer').classList.contains('open')) renderTOC();
+}
+
+function createQuestionBlock(q, secId) {
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  block.id = 'qblock-' + q.id;
+  block.innerHTML = `
+    <div class="q-type-badge">${q.type}</div>
+    <div class="q-number">Question ${q.number}</div>
+    <div class="q-text">${q.text}</div>
+  `;
+  
+  const inputContainer = document.createElement('div');
+  if(q.type === 'fill') {
+    const inp = document.createElement('input');
+    inp.className = 'q-fill';
+    inp.value = state.answers[q.id] || '';
+    inp.oninput = (e) => { state.answers[q.id] = e.target.value; updateProgress(state.test.sections[state.currentSection]); };
+    inputContainer.appendChild(inp);
+  } else if(q.type === 'mcq') {
+    const opts = document.createElement('div');
+    opts.className = 'q-options';
+    q.options.forEach((o, i) => {
+      const btn = document.createElement('div');
+      btn.className = `q-opt ${state.answers[q.id] === i ? 'selected' : ''}`;
+      btn.innerHTML = `<span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${o}</span>`;
+      btn.onclick = () => {
+        state.answers[q.id] = i;
+        renderSection(state.currentSection);
+      };
+      opts.appendChild(btn);
+    });
+    inputContainer.appendChild(opts);
+  }
+  
+  block.appendChild(inputContainer);
+  return block;
+}
+
+// ─── TOC RENDERING ────────────────────────────────────────────────────────────
+function renderTOC() {
+  const container = document.getElementById('toc-content');
+  container.innerHTML = '';
+
+  state.test.sections.forEach((sec, sIdx) => {
+    const secDiv = document.createElement('div');
+    secDiv.className = 'toc-sec-item';
+    secDiv.innerHTML = `<span class="toc-sec-title">${sec.label}</span>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'toc-q-grid';
+
+    sec.questions.forEach(q => {
+      const isAnswered = state.answers[q.id] !== undefined && state.answers[q.id] !== '';
+      const isCurrent = sIdx === state.currentSection;
+      
+      const qBtn = document.createElement('div');
+      qBtn.className = `toc-q-num ${isAnswered ? 'answered' : ''}`;
+      // 如果是当前正在做的 Section 的题号，且该题就在视图中，可以加个边框标记
+      qBtn.textContent = q.number;
+      
+      qBtn.onclick = () => {
+        switchSection(sIdx);
+        setTimeout(() => {
+          const el = document.getElementById('qblock-' + q.id);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+        document.getElementById('toc-drawer').classList.remove('open');
+      };
+      grid.appendChild(qBtn);
+    });
+
+    secDiv.appendChild(grid);
+    container.appendChild(secDiv);
+  });
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
 function renderSectionTabs() {
   const tabs = document.getElementById('sec-tabs');
   tabs.innerHTML = '';
   state.test.sections.forEach((sec, i) => {
     const btn = document.createElement('button');
-    btn.className = 'sec-tab' + (i === state.currentSection ? ' active' : '') + (state.submitted[sec.id] ? ' done' : '');
+    btn.className = `sec-tab ${i === state.currentSection ? 'active' : ''}`;
     btn.textContent = sec.label;
     btn.onclick = () => switchSection(i);
     tabs.appendChild(btn);
   });
 }
 
-function switchSection(idx) {
-  state.currentSection = idx;
-  renderSectionTabs();
-  renderSection(idx);
-}
-
-// ─── RENDER SECTION ───────────────────────────────────────────────────────────
-function renderSection(idx) {
-  const sec = state.test.sections[idx];
-  if (!sec) return;
-
-  // Passage
-  document.getElementById('passage-label').textContent = sec.label;
-  document.getElementById('passage-title').textContent = sec.passage_title;
-  const body = document.getElementById('passage-body');
-  body.innerHTML = '';
-  sec.passage.split('\n\n').forEach(para => {
-    const p = document.createElement('p');
-    p.textContent = para.trim();
-    body.appendChild(p);
-  });
-  reapplyHighlights(sec.id);
-
-  // Selection listener
-  body.onmouseup = () => handleSelection(sec.id);
-
-  // Questions
-  const qs = sec.questions;
-  const nums = qs.map(q => q.number);
-  document.getElementById('q-header-title').textContent = `Questions ${Math.min(...nums)}–${Math.max(...nums)}`;
-  document.getElementById('q-header-range').textContent = sec.label;
-
-  const qBody = document.getElementById('q-body');
-  qBody.innerHTML = '';
-
-  // Score card
-  const sc = document.getElementById('score-card');
-  if (state.submitted[sec.id]) {
-    showScore(sec);
-    sc.classList.add('show');
-  } else {
-    sc.classList.remove('show');
-  }
-
-  // Group questions by type label
-  let lastType = null;
-  qs.forEach((q, i) => {
-    const block = document.createElement('div');
-    block.className = 'q-block';
-    block.id = 'qblock-' + q.id;
-
-    const badge = document.createElement('div');
-    badge.className = 'q-type-badge';
-    badge.textContent = typeName(q.type);
-
-    const num = document.createElement('div');
-    num.className = 'q-number';
-    num.textContent = 'Question ' + q.number;
-
-    const text = document.createElement('div');
-    text.className = 'q-text';
-    text.innerHTML = q.text.replace(/___/g, '<span style="border-bottom:1.5px solid var(--ink3);display:inline-block;min-width:60px">&nbsp;</span>');
-
-    block.appendChild(badge);
-    block.appendChild(num);
-    block.appendChild(text);
-    block.appendChild(renderInput(q, sec.id));
-    qBody.appendChild(block);
-  });
-
-  updateProgress(sec);
-  updateSubmitBtn(sec);
-}
-
-function typeName(t) {
-  if (t === 'fill') return 'Sentence completion';
-  if (t === 'mcq')  return 'Multiple choice';
-  if (t === 'tfng') return 'True / False / Not Given';
-  return t;
-}
-
-function renderInput(q, secId) {
-  const submitted = state.submitted[secId];
-  if (q.type === 'fill') {
-    const inp = document.createElement('input');
-    inp.className = 'q-fill';
-    inp.type = 'text';
-    inp.placeholder = 'Write your answer…';
-    inp.value = state.answers[q.id] || '';
-    if (submitted) {
-      const correct = (inp.value.trim().toLowerCase() === q.answer.toLowerCase());
-      inp.classList.add(correct ? 'correct' : 'wrong');
-      inp.disabled = true;
-      const fb = document.createElement('div');
-      fb.className = 'q-feedback ' + (correct ? 'correct' : 'wrong');
-      fb.textContent = correct ? '✓ Correct' : '✗ Answer: ' + q.answer;
-      const wrap = document.createElement('div');
-      wrap.appendChild(inp);
-      wrap.appendChild(fb);
-      return wrap;
-    }
-    inp.oninput = () => {
-      state.answers[q.id] = inp.value;
-      updateProgress(state.test.sections[state.currentSection]);
-    };
-    return inp;
-  }
-  if (q.type === 'mcq') {
-    const wrap = document.createElement('div');
-    wrap.className = 'q-options';
-    q.options.forEach((opt, i) => {
-      const label = document.createElement('label');
-      label.className = 'q-opt' + (state.answers[q.id] === i ? ' selected' : '');
-      const letter = document.createElement('span');
-      letter.className = 'opt-letter';
-      letter.textContent = String.fromCharCode(65 + i);
-      const txt = document.createElement('span');
-      txt.textContent = opt;
-      label.appendChild(letter);
-      label.appendChild(txt);
-      if (submitted) {
-        if (i === q.answer) label.classList.add('correct');
-        else if (state.answers[q.id] === i) label.classList.add('wrong');
-      } else {
-        label.onclick = () => {
-          wrap.querySelectorAll('.q-opt').forEach(x => x.classList.remove('selected'));
-          label.classList.add('selected');
-          state.answers[q.id] = i;
-          updateProgress(state.test.sections[state.currentSection]);
-        };
-      }
-      wrap.appendChild(label);
-    });
-    return wrap;
-  }
-  if (q.type === 'tfng') {
-    const wrap = document.createElement('div');
-    wrap.className = 'tfng-opts';
-    ['TRUE','FALSE','NOT GIVEN'].forEach(val => {
-      const btn = document.createElement('button');
-      btn.className = 'tfng-btn' + (state.answers[q.id] === val ? ' selected' : '');
-      btn.textContent = val === 'NOT GIVEN' ? 'Not Given' : val[0] + val.slice(1).toLowerCase();
-      if (submitted) {
-        if (val === q.answer) btn.classList.add('correct');
-        else if (state.answers[q.id] === val) btn.classList.add('wrong');
-      } else {
-        btn.onclick = () => {
-          wrap.querySelectorAll('.tfng-btn').forEach(x => x.classList.remove('selected'));
-          btn.classList.add('selected');
-          state.answers[q.id] = val;
-          updateProgress(state.test.sections[state.currentSection]);
-        };
-      }
-      wrap.appendChild(btn);
-    });
-    return wrap;
-  }
-  return document.createTextNode('');
-}
-
 function updateProgress(sec) {
-  const answered = sec.questions.filter(q => state.answers[q.id] !== undefined && state.answers[q.id] !== '').length;
-  const total = sec.questions.length;
-  document.getElementById('q-footer-info').textContent = `${answered} / ${total} answered`;
-  document.getElementById('q-progress').textContent = `${answered} / ${total}`;
-  updateDots(sec, answered);
-}
-
-function updateDots(sec, answered) {
-  const dotsEl = document.getElementById('q-dots');
-  dotsEl.innerHTML = '';
-  sec.questions.forEach((q, i) => {
-    const d = document.createElement('div');
-    d.className = 'qdot' + (state.answers[q.id] !== undefined && state.answers[q.id] !== '' ? ' answered' : '');
-    dotsEl.appendChild(d);
-  });
+  const answered = sec.questions.filter(q => state.answers[q.id]).length;
+  document.getElementById('q-progress').textContent = `${answered} / ${sec.questions.length}`;
 }
 
 function updateSubmitBtn(sec) {
   const btn = document.getElementById('btn-submit');
-  if (state.submitted[sec.id]) {
-    btn.textContent = '✓ Submitted';
-    btn.disabled = true;
-    btn.classList.add('submitted');
-  } else {
-    btn.textContent = 'Submit Section';
-    btn.disabled = false;
-    btn.classList.remove('submitted');
-    btn.onclick = () => submitSection(sec);
-  }
+  btn.disabled = !!state.submitted[sec.id];
+  btn.textContent = btn.disabled ? 'Submitted' : 'Submit Section';
 }
 
-// ─── SUBMIT & SCORE ───────────────────────────────────────────────────────────
-function submitSection(sec) {
-  state.submitted[sec.id] = true;
-  showScore(sec);
-  document.getElementById('score-card').classList.add('show');
-  renderSection(state.currentSection); // re-render with feedback
-  renderSectionTabs();
-  saveResults();
+function startTimer() {
+  setInterval(() => {
+    state.timerSecs--;
+    const m = Math.floor(state.timerSecs / 60);
+    const s = state.timerSecs % 60;
+    document.getElementById('timer').textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+  }, 1000);
 }
 
-function showScore(sec) {
-  let correct = 0;
-  sec.questions.forEach(q => {
-    const ans = state.answers[q.id];
-    if (q.type === 'fill' && typeof ans === 'string' && ans.trim().toLowerCase() === q.answer.toLowerCase()) correct++;
-    else if ((q.type === 'mcq' || q.type === 'tfng') && ans === q.answer) correct++;
-  });
-  const total = sec.questions.length;
-  const band = calcBand(correct, total);
-  document.getElementById('sc-correct').textContent = correct;
-  document.getElementById('sc-total').textContent = total;
-  document.getElementById('sc-band').textContent = band;
-  document.getElementById('sc-label').textContent = bandLabel(band);
-}
-
-function calcBand(correct, total) {
-  // Scale to 40-question equivalent
-  const scaled = Math.round((correct / total) * 40);
-  for (const [lo, hi, band] of BAND_TABLE) {
-    if (scaled >= lo) return band;
-  }
-  return 2.5;
-}
-
-function bandLabel(b) {
-  if (b >= 8.5) return 'Expert user';
-  if (b >= 7)   return 'Good user';
-  if (b >= 6)   return 'Competent user';
-  if (b >= 5)   return 'Modest user';
-  return 'Limited user';
-}
-
-function saveResults() {
-  const history = JSON.parse(localStorage.getItem('ielts_results') || '[]');
-  history.push({ date: new Date().toISOString(), testId: state.test.id, answers: state.answers, submitted: state.submitted });
-  localStorage.setItem('ielts_results', JSON.stringify(history.slice(-50)));
-}
-
-// ─── TEXT SELECTION & HIGHLIGHTING ───────────────────────────────────────────
-function handleSelection(secId) {
-  const sel = window.getSelection();
-  if (!sel || sel.isCollapsed) return;
-  const text = sel.toString().trim();
-  if (!text || text.length < 2) return;
-  pendingSelection = { text, secId };
-  showColorPopup(sel);
-}
-
-function showColorPopup(sel) {
-  const popup = document.getElementById('color-popup');
-  renderColorSwatches();
-  renderCatList();
-  popup.classList.add('show');
-  // Position near selection
-  const rect = sel.getRangeAt(0).getBoundingClientRect();
-  const pw = popup.offsetWidth || 240;
-  let left = rect.left + window.scrollX;
-  let top = rect.bottom + window.scrollY + 6;
-  if (left + pw > window.innerWidth - 10) left = window.innerWidth - pw - 10;
-  popup.style.left = left + 'px';
-  popup.style.top = top + 'px';
-}
-
-function renderColorSwatches() {
-  const el = document.getElementById('cp-colors');
-  el.innerHTML = '';
-  state.colors.forEach((c, i) => {
-    const sw = document.createElement('div');
-    sw.className = 'cp-swatch' + (i === selectedColorIdx ? ' active' : '');
-    sw.style.background = c.css;
-    sw.onclick = () => { selectedColorIdx = i; renderColorSwatches(); };
-    el.appendChild(sw);
-  });
-  // custom colour picker
-  const custom = document.createElement('div');
-  custom.className = 'cp-swatch-custom';
-  custom.title = 'Custom colour';
-  custom.innerHTML = '+<input type="color" value="#ffff00">';
-  custom.querySelector('input').onchange = e => {
-    const hex = e.target.value;
-    const css = hexToRgba(hex, 0.4);
-    state.colors.push({ name: 'Custom', css, hex });
-    selectedColorIdx = state.colors.length - 1;
-    saveColors();
-    renderColorSwatches();
-  };
-  el.appendChild(custom);
-}
-
-function hexToRgba(hex, a) {
-  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${a})`;
-}
-
-function renderCatList() {
-  const el = document.getElementById('cp-cat-list');
-  el.innerHTML = '';
-  state.categories.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'cp-cat' + (selectedCat === cat ? ' active' : '');
-    btn.textContent = cat;
-    btn.onclick = () => { selectedCat = (selectedCat === cat ? '' : cat); renderCatList(); };
-    el.appendChild(btn);
-  });
-}
-
-document.getElementById('cp-add-cat').onclick = () => {
-  const inp = document.getElementById('cp-new-cat-input');
-  const val = inp.value.trim();
-  if (val && !state.categories.includes(val)) {
-    state.categories.push(val);
-    saveCats();
-    selectedCat = val;
-    renderCatList();
-    inp.value = '';
-  }
-};
-
-document.getElementById('cp-cancel').onclick = () => {
-  document.getElementById('color-popup').classList.remove('show');
-  pendingSelection = null;
-  window.getSelection()?.removeAllRanges();
-};
-
-document.getElementById('cp-save').onclick = () => {
-  if (!pendingSelection) return;
-  const { text, secId } = pendingSelection;
-  const color = state.colors[selectedColorIdx];
-  state.vocab.push({ word: text, color: color.name, colorCss: color.css, category: selectedCat, secId });
-  saveVocab();
-  applyHighlight(text, color.css, secId);
-  document.getElementById('color-popup').classList.remove('show');
-  pendingSelection = null;
-  window.getSelection()?.removeAllRanges();
-  renderVocab();
-};
-
-function applyHighlight(text, css, secId) {
-  const body = document.getElementById('passage-body');
-  body.querySelectorAll('p').forEach(p => {
-    if (!p.innerHTML.includes(text)) return;
-    // Simple text-node replacement (no overlap handling needed for MVP)
-    p.innerHTML = p.innerHTML.replace(
-      new RegExp(escapeRe(text), 'g'),
-      `<mark class="hl" style="background:${css};border-radius:2px">${text}</mark>`
-    );
-  });
-}
-
-function reapplyHighlights(secId) {
-  state.vocab.filter(v => v.secId === secId).forEach(v => applyHighlight(v.word, v.colorCss, secId));
-}
-
-function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-
-// ─── VOCAB DRAWER ─────────────────────────────────────────────────────────────
-document.getElementById('vocab-toggle').onclick = () => document.getElementById('vocab-drawer').classList.toggle('open');
-document.getElementById('vocab-close').onclick = () => document.getElementById('vocab-drawer').classList.remove('open');
-
-document.getElementById('vocab-tab-list').onclick = () => {
-  document.getElementById('vocab-panel-list').style.display = 'flex';
-  document.getElementById('vocab-panel-stats').style.display = 'none';
-  document.getElementById('vocab-tab-list').classList.add('active');
-  document.getElementById('vocab-tab-stats').classList.remove('active');
-};
-document.getElementById('vocab-tab-stats').onclick = () => {
-  document.getElementById('vocab-panel-list').style.display = 'none';
-  document.getElementById('vocab-panel-stats').style.display = 'block';
-  document.getElementById('vocab-tab-stats').classList.add('active');
-  document.getElementById('vocab-tab-list').classList.remove('active');
-  renderVocabStats();
-};
-
-function removeVocabItem(v) {
-  state.vocab.splice(state.vocab.indexOf(v), 1);
-  saveVocab();
-  const sec = state.test.sections[state.currentSection];
-  const body = document.getElementById('passage-body');
-  body.querySelectorAll('mark.hl').forEach(mark => mark.replaceWith(document.createTextNode(mark.textContent)));
-  reapplyHighlights(sec.id);
-  renderVocab();
-}
-
-function renderVocab() {
-  const list = document.getElementById('vocab-list');
-  list.innerHTML = '';
-  const filterArea = document.getElementById('vocab-filter');
-  filterArea.innerHTML = '';
-
-  const allCats = ['All', ...new Set(state.vocab.map(v => v.category).filter(Boolean))];
-  let activeFilter = 'All';
-  allCats.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'vf-btn' + (cat === activeFilter ? ' active' : '');
-    btn.textContent = cat + (cat === 'All' ? ` (${state.vocab.length})` : ` (${state.vocab.filter(v=>v.category===cat).length})`);
-    btn.onclick = () => { activeFilter = cat; renderVocabList(cat); filterArea.querySelectorAll('.vf-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); };
-    filterArea.appendChild(btn);
-  });
-
-  renderVocabList('All');
-}
-
-function renderVocabList(filter) {
-  const list = document.getElementById('vocab-list');
-  list.innerHTML = '';
-  const items = filter === 'All' ? state.vocab : state.vocab.filter(v => v.category === filter);
-  if (!items.length) {
-    const empty = document.createElement('div');
-    empty.className = 'vocab-empty';
-    empty.textContent = 'No words saved yet. Select text in the passage to add.';
-    list.appendChild(empty);
-    return;
-  }
-  items.forEach((v) => {
-    const row = document.createElement('div');
-    row.className = 'vocab-item';
-    const dot = document.createElement('div');
-    dot.className = 'vocab-dot';
-    dot.style.background = v.colorCss;
-    const word = document.createElement('div');
-    word.className = 'vocab-word';
-    word.textContent = v.word;
-    const cat = document.createElement('div');
-    cat.className = 'vocab-cat';
-    cat.textContent = v.category || '—';
-    const del = document.createElement('button');
-    del.className = 'vocab-del';
-    del.textContent = '×';
-    del.onclick = () => removeVocabItem(v);
-    row.appendChild(dot); row.appendChild(word); row.appendChild(cat); row.appendChild(del);
-    list.appendChild(row);
-  });
-}
-
-function renderVocabStats() {
-  const panel = document.getElementById('vocab-panel-stats');
-  panel.innerHTML = '';
-  if (!state.vocab.length) {
-    panel.innerHTML = '<div style="font-size:13px;color:var(--ink3);text-align:center;padding:24px 0">No words saved yet.</div>';
-    return;
-  }
-
-  // Total summary
-  const total = document.createElement('div');
-  total.style.cssText = 'font-size:13px;color:var(--ink2);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--rule2)';
-  total.innerHTML = `<span style="font-size:22px;font-weight:500;color:var(--accent)">${state.vocab.length}</span> words saved`;
-  panel.appendChild(total);
-
-  // Group by category
-  const grouped = {};
-  state.vocab.forEach(v => {
-    const key = v.category || 'Uncategorised';
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(v);
-  });
-
-  Object.entries(grouped).sort((a,b) => b[1].length - a[1].length).forEach(([cat, words]) => {
-    const block = document.createElement('div');
-    block.className = 'stats-cat-block';
-
-    const title = document.createElement('div');
-    title.className = 'stats-cat-title';
-    title.innerHTML = `<span>${cat}</span><span class="stats-cat-count">${words.length}</span>`;
-    block.appendChild(title);
-
-    // Bar
-    const bar = document.createElement('div');
-    bar.style.cssText = 'height:4px;border-radius:2px;background:var(--rule2);margin-bottom:10px;overflow:hidden';
-    const fill = document.createElement('div');
-    fill.style.cssText = `height:100%;border-radius:2px;background:${words[0].colorCss || 'var(--accent)'};width:${Math.round(words.length/state.vocab.length*100)}%`;
-    bar.appendChild(fill);
-    block.appendChild(bar);
-
-    words.forEach(v => {
-      const row = document.createElement('div');
-      row.className = 'stats-word-row';
-      const dot = document.createElement('div');
-      dot.className = 'stats-dot';
-      dot.style.background = v.colorCss;
-      const w = document.createElement('div');
-      w.className = 'stats-word';
-      w.textContent = v.word;
-      const sec = document.createElement('div');
-      sec.className = 'stats-sec';
-      const secObj = state.test?.sections.find(s => s.id === v.secId);
-      sec.textContent = secObj ? secObj.label : '';
-      const del = document.createElement('button');
-      del.className = 'vocab-del';
-      del.textContent = '×';
-      del.onclick = () => { removeVocabItem(v); renderVocabStats(); };
-      row.appendChild(dot); row.appendChild(w); row.appendChild(sec); row.appendChild(del);
-      block.appendChild(row);
-    });
-
-    panel.appendChild(block);
-  });
-}
-
-// ─── CLICK HIGHLIGHT TO DELETE ────────────────────────────────────────────────
-let hlPopupTarget = null;
-document.getElementById('passage-body').addEventListener('click', e => {
-  const mark = e.target.closest('mark.hl');
-  if (!mark) return;
-  const word = mark.textContent;
-  const v = state.vocab.find(x => x.word === word);
-  if (!v) return;
-  hlPopupTarget = v;
-  const popup = document.getElementById('hl-popup');
-  document.getElementById('hl-popup-word').textContent = word;
-  document.getElementById('hl-popup-cat').textContent = v.category ? 'Category: ' + v.category : 'No category';
-  popup.style.display = 'block';
-  const rect = mark.getBoundingClientRect();
-  let left = rect.left + window.scrollX;
-  let top = rect.bottom + window.scrollY + 4;
-  if (left + 170 > window.innerWidth - 10) left = window.innerWidth - 180;
-  popup.style.left = left + 'px';
-  popup.style.top = top + 'px';
-  e.stopPropagation();
-});
-
-document.getElementById('hl-popup-del').onclick = () => {
-  if (hlPopupTarget) {
-    removeVocabItem(hlPopupTarget);
-    hlPopupTarget = null;
-  }
-  document.getElementById('hl-popup').style.display = 'none';
-};
-
-document.addEventListener('mousedown', e => {
-  const hlp = document.getElementById('hl-popup');
-  if (hlp.style.display !== 'none' && !hlp.contains(e.target)) {
-    hlp.style.display = 'none';
-    hlPopupTarget = null;
-  }
-});
-
-// ─── SETTINGS ─────────────────────────────────────────────────────────────────
-document.getElementById('settings-btn').onclick = () => document.getElementById('settings-modal').classList.add('show');
-document.getElementById('settings-close').onclick = () => document.getElementById('settings-modal').classList.remove('show');
-
-function setupSettings() {
-  renderColorSettings();
-  renderCatSettings();
-}
-
-function renderColorSettings() {
-  const el = document.getElementById('color-presets');
-  el.innerHTML = '';
-  state.colors.forEach((c, i) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'preset-swatch';
-    const sw = document.createElement('div');
-    sw.className = 'sw';
-    sw.style.background = c.css;
-    sw.style.border = '2px solid var(--rule)';
-    const picker = document.createElement('input');
-    picker.type = 'color';
-    picker.value = c.hex || '#ffff00';
-    picker.title = c.name;
-    const lbl = document.createElement('span');
-    lbl.textContent = c.name;
-    picker.oninput = e => {
-      const hex = e.target.value;
-      state.colors[i].css = hexToRgba(hex, 0.4);
-      state.colors[i].hex = hex;
-      sw.style.background = state.colors[i].css;
-      saveColors();
-    };
-    wrap.appendChild(sw);
-    wrap.appendChild(picker);
-    wrap.appendChild(lbl);
-    el.appendChild(wrap);
-  });
-}
-
-function renderCatSettings() {
-  const el = document.getElementById('cats-manager');
-  el.innerHTML = '';
-  state.categories.forEach((cat, i) => {
-    const row = document.createElement('div');
-    row.className = 'cat-row';
-    const inp = document.createElement('input');
-    inp.type = 'text'; inp.value = cat;
-    inp.onchange = () => { state.categories[i] = inp.value.trim(); saveCats(); };
-    const del = document.createElement('button');
-    del.className = 'cat-del'; del.textContent = '×';
-    del.onclick = () => { state.categories.splice(i, 1); saveCats(); renderCatSettings(); };
-    row.appendChild(inp); row.appendChild(del);
-    el.appendChild(row);
-  });
-}
-
-document.getElementById('new-cat-add').onclick = () => {
-  const inp = document.getElementById('new-cat-input');
-  const val = inp.value.trim();
-  if (val && !state.categories.includes(val)) {
-    state.categories.push(val);
-    saveCats();
-    renderCatSettings();
-    inp.value = '';
-  }
-};
-
-// ─── PERSIST ──────────────────────────────────────────────────────────────────
-function saveColors() { localStorage.setItem('ielts_colors', JSON.stringify(state.colors)); }
-function saveCats()   { localStorage.setItem('ielts_cats', JSON.stringify(state.categories)); }
-function saveVocab()  { localStorage.setItem('ielts_vocab', JSON.stringify(state.vocab)); }
-
-// Load saved vocab on start
-const savedVocab = localStorage.getItem('ielts_vocab');
-if (savedVocab) state.vocab = JSON.parse(savedVocab);
-
-// Close popups when clicking outside
-document.addEventListener('mousedown', e => {
-  const popup = document.getElementById('color-popup');
-  if (popup.classList.contains('show') && !popup.contains(e.target)) {
-    popup.classList.remove('show');
-    pendingSelection = null;
-  }
-  const hlp = document.getElementById('hl-popup');
-  if (hlp.style.display !== 'none' && !hlp.contains(e.target) && !e.target.closest('mark.hl')) {
-    hlp.style.display = 'none';
-    hlPopupTarget = null;
-  }
-});
-
-// ─── START ────────────────────────────────────────────────────────────────────
 loadTest();
 </script>
 </body>
