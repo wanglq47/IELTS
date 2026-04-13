@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ink:#1a1a18;--ink2:#4a4a46;--ink3:#8a8a84;--rule:#d8d6cf;--rule2:#eceae3;--surface:#f5f3ed;--surface2:#faf9f5;--white:#fff;--accent:#1a4a7a;--accent2:#e8f0fa;--green:#1a5c35;--green2:#e6f4ec;--red:#8c2020;--red2:#fdf0f0;--amber:#7a4a00;--amber2:#fdf5e6;--r:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:var(--sans);background:var(--surface);color:var(--ink)}
+
+header{background:var(--white);border-bottom:1px solid var(--rule);padding:0 24px;height:52px;display:flex;align-items:center;gap:12px}
+.back{color:var(--ink3);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:4px}.back:hover{color:var(--accent)}
+.hbar{width:1px;height:16px;background:var(--rule)}
+.brand{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--accent)}
+
+main{max-width:860px;margin:0 auto;padding:28px 24px 80px}
+.page-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+h1{font-family:var(--serif);font-size:22px;font-weight:600}
+.page-sub{font-size:13px;color:var(--ink3);margin-top:2px}
+
+/* View tabs */
+.tabs{display:flex;gap:0;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;width:fit-content;margin-bottom:22px}
+.tab{padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--ink3);font-family:var(--sans);transition:all .12s}
+.tab.active{background:var(--accent);color:#fff}
+.tab:not(.active):hover{background:var(--rule2);color:var(--ink)}
+
+/* Filter bar */
+.fbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.fb{font-size:12px;padding:4px 12px;border-radius:14px;border:1px solid var(--rule);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--sans);transition:all .12s}
+.fb:hover{color:var(--ink)}.fb.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.fbar-right{margin-left:auto;display:flex;gap:6px}
+.icon-btn{font-size:12px;padding:4px 12px;border-radius:14px;border:1px solid var(--rule);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── WORD CARDS ── */
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.wcard{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;position:relative;transition:border-color .12s}
+.wcard:hover{border-color:#aac4e0}
+.wcard-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.wdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.wword{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink);flex:1}
+.wcard-del{background:none;border:none;color:var(--rule);cursor:pointer;font-size:16px;line-height:1;transition:color .1s}
+.wcard-del:hover{color:var(--red)}
+.wdef-en{font-size:13px;color:var(--ink2);line-height:1.55;margin-bottom:6px;min-height:18px}
+.wdef-en.loading{color:var(--ink3);font-style:italic}
+.wdef-cn{font-size:13px;color:var(--ink3);line-height:1.55;display:none}
+.wcard-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--rule2)}
+.wcat{font-size:11px;color:var(--ink3)}
+.wcn-toggle{font-size:11px;padding:2px 8px;border-radius:10px;border:1px solid var(--rule);background:transparent;cursor:pointer;color:var(--ink3);font-family:var(--sans)}
+.wcn-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.wcheck{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+
+/* Study plan */
+.study-bar{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.study-bar-text{font-size:13px;color:var(--ink2);flex:1}
+.study-bar-text strong{color:var(--ink)}
+.study-start{padding:7px 18px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans)}
+.study-start:hover{opacity:.88}
+.study-start:disabled{opacity:.4;cursor:default}
+
+/* ── FLASHCARD VIEW ── */
+#fc-view{display:none}
+.fc-top{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.fc-top-btn{padding:6px 14px;border-radius:var(--r);border:1px solid var(--rule);background:var(--white);font-size:13px;cursor:pointer;color:var(--ink2);font-family:var(--sans)}
+.fc-top-btn:hover{border-color:var(--accent);color:var(--accent)}
+#fc-prog-text{font-size:13px;color:var(--ink3);margin-left:auto}
+.fc-arena{display:flex;flex-direction:column;align-items:center}
+.fc-card{width:100%;max-width:500px;min-height:220px;background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:36px 32px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:box-shadow .12s;user-select:none}
+.fc-card:hover{box-shadow:0 4px 16px rgba(26,74,122,.08)}
+.fc-word{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.fc-hint{font-size:13px;color:var(--ink3);margin-bottom:0}
+.fc-def-en{font-size:14px;color:var(--ink2);line-height:1.6;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule2);display:none;width:100%}
+.fc-def-cn{font-size:13px;color:var(--ink3);line-height:1.6;margin-top:6px;display:none;width:100%}
+.fc-nav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.fc-nav-btn{padding:7px 22px;border-radius:var(--r);border:1px solid var(--rule);background:var(--white);font-size:13px;cursor:pointer;font-family:var(--sans);color:var(--ink2)}
+.fc-nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.fc-nav-btn:disabled{opacity:.3;cursor:default}
+#fc-idx{font-size:13px;color:var(--ink3);min-width:64px;text-align:center}
+.fc-cn-reveal{font-size:12px;color:var(--ink3);margin-top:10px;cursor:pointer;text-decoration:underline;text-decoration-style:dotted}
+.fc-cn-reveal:hover{color:var(--accent)}
+
+/* ── DICTATION VIEW ── */
+#dict-view{display:none}
+.dict-header{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.dict-prog{font-size:13px;color:var(--ink2)}
+.dict-prog strong{font-size:18px;color:var(--accent)}
+.dict-queue{font-size:12px;color:var(--ink3)}
+.dict-arena{display:flex;flex-direction:column;align-items:center;padding:8px 0}
+.dict-card{width:100%;max-width:500px;background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:32px 28px;text-align:center}
+.dict-prompt-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:16px}
+.dict-def-en{font-family:var(--serif);font-size:17px;color:var(--ink);line-height:1.6;margin-bottom:8px;min-height:24px}
+.dict-def-cn{font-size:13px;color:var(--ink3);line-height:1.5;margin-bottom:20px;min-height:18px}
+.dict-cn-btn{font-size:11px;color:var(--ink3);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;background:none;border:none;font-family:var(--sans);margin-bottom:18px;display:block;margin-left:auto;margin-right:auto}
+.dict-cn-btn:hover{color:var(--accent)}
+.dict-input-wrap{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:16px}
+.dict-input{font-family:var(--serif);font-size:20px;text-align:center;padding:10px 16px;border:1.5px solid var(--rule);border-radius:var(--r);outline:none;width:240px;color:var(--ink);background:var(--surface2);transition:border-color .15s}
+.dict-input:focus{border-color:var(--accent);background:var(--white)}
+.dict-input.correct{border-color:var(--green);background:var(--green2);color:var(--green)}
+.dict-input.wrong{border-color:var(--red);background:var(--red2);color:var(--red)}
+.dict-check-btn{padding:10px 20px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-size:14px;cursor:pointer;font-family:var(--sans)}
+.dict-check-btn:hover{opacity:.88}
+.dict-feedback{font-size:14px;font-weight:500;margin-bottom:8px;min-height:20px}
+.dict-feedback.correct{color:var(--green)}
+.dict-feedback.wrong{color:var(--red)}
+.dict-answer{font-size:13px;color:var(--ink3);min-height:18px}
+.dict-next-btn{margin-top:12px;padding:8px 24px;border-radius:var(--r);border:1px solid var(--rule);background:var(--surface);font-size:13px;cursor:pointer;font-family:var(--sans);color:var(--ink2)}
+.dict-next-btn:hover{border-color:var(--accent);color:var(--accent)}
+.dict-done{text-align:center;padding:40px 0}
+.dict-done h2{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:8px}
+.dict-done p{font-size:14px;color:var(--ink3);margin-bottom:20px}
+.dict-done-btn{padding:9px 24px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-size:14px;cursor:pointer;font-family:var(--sans);margin:0 6px}
+
+.empty{text-align:center;padding:48px 0;color:var(--ink3);font-size:14px}
+
+@media(max-width:520px){.word-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">← Home</a>
+  <div class="hbar"></div>
+  <div class="brand">Vocabulary</div>
+</header>
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Vocabulary Bank</h1>
+      <div class="page-sub" id="page-sub">0 words</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showView('list')">Word List</button>
+    <button class="tab" onclick="showView('fc')">Flashcards</button>
+    <button class="tab" onclick="showView('dict')">Dictation</button>
+  </div>
+
+  <!-- ── WORD LIST ── -->
+  <div id="list-view">
+    <div class="fbar" id="fbar">
+      <button class="fb active" data-f="All">All</button>
+      <div class="fbar-right">
+        <button class="icon-btn" onclick="selectAll()">Select all</button>
+        <button class="icon-btn" onclick="exportCSV()">Export CSV</button>
+      </div>
+    </div>
+    <div class="study-bar" id="study-bar">
+      <div class="study-bar-text"><strong id="selected-count">0</strong> words selected for today's study</div>
+      <button class="study-start" id="study-go" onclick="startStudy()" disabled>Start study session →</button>
+    </div>
+    <div id="word-list"></div>
+  </div>
+
+  <!-- ── FLASHCARD VIEW ── -->
+  <div id="fc-view">
+    <div class="fc-top">
+      <button class="fc-top-btn" onclick="fcShuffle()">Shuffle</button>
+      <button class="fc-top-btn" onclick="showView('list')">← Back</button>
+      <span id="fc-prog-text"></span>
+    </div>
+    <div class="fc-arena">
+      <div class="fc-card" id="fc-card" onclick="fcFlip()">
+        <div class="fc-word" id="fc-word">—</div>
+        <div class="fc-hint" id="fc-hint">Tap to reveal definition</div>
+        <div class="fc-def-en" id="fc-def-en"></div>
+        <div class="fc-def-cn" id="fc-def-cn"></div>
+      </div>
+      <button class="fc-cn-reveal" id="fc-cn-btn" onclick="fcShowCn()" style="display:none">Show Chinese</button>
+      <div class="fc-nav">
+        <button class="fc-nav-btn" id="fc-prev" onclick="fcNav(-1)">← Prev</button>
+        <span id="fc-idx">1 / 1</span>
+        <button class="fc-nav-btn" id="fc-next" onclick="fcNav(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DICTATION VIEW ── -->
+  <div id="dict-view">
+    <div class="dict-header">
+      <div class="dict-prog">
+        <strong id="dict-done-n">0</strong> / <span id="dict-total-n">0</span> mastered
+      </div>
+      <div class="dict-queue" id="dict-queue-info"></div>
+      <button class="fc-top-btn" onclick="showView('list')" style="margin-left:auto">← Back</button>
+    </div>
+    <div class="dict-arena" id="dict-arena"></div>
+  </div>
+</main>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let vocab = [];
+let defCache = {};  // word -> { en, cn }
+let selectedWords = new Set();
+let currentView = 'list';
+let listFilter = 'All';
+
+// Flashcard state
+let fcCards = [];
+let fcIdx = 0;
+let fcFlipped = false;
+
+// Dictation state
+let dictQueue = [];    // words still to learn
+let dictMastered = []; // words answered correctly
+let dictCurrent = null;
+let dictChecked = false;
+let dictShowCn = false;
+
+// ── LOAD ───────────────────────────────────────────────────────────────────
+function load() {
+  vocab = JSON.parse(localStorage.getItem('ielts_vocab') || '[]');
+  defCache = JSON.parse(localStorage.getItem('ielts_defs') || '{}');
+  document.getElementById('page-sub').textContent = vocab.length + ' word' + (vocab.length !== 1 ? 's' : '') + ' saved';
+  buildFilters();
+  renderList();
+}
+
+function saveDefCache() {
+  localStorage.setItem('ielts_defs', JSON.stringify(defCache));
+}
+
+// ── DICTIONARY LOOKUP ──────────────────────────────────────────────────────
+// Uses Free Dictionary API for English, then MyMemory for Chinese
+async function lookupWord(word) {
+  const key = word.toLowerCase().trim();
+  if (defCache[key]) return defCache[key];
+
+  let def = { en: '', cn: '' };
+  try {
+    // English definition via Free Dictionary API
+    const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`);
+    if (r.ok) {
+      const data = await r.json();
+      const meanings = data[0]?.meanings || [];
+      const parts = meanings.slice(0, 2).map(m => {
+        const pos = m.partOfSpeech;
+        const defs = m.definitions.slice(0, 1).map(d => d.definition).join('; ');
+        return `${pos}: ${defs}`;
+      });
+      def.en = parts.join(' / ') || '';
+    }
+  } catch(e) {}
+
+  try {
+    // Chinese translation via MyMemory
+    const r2 = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(key)}&langpair=en|zh`);
+    if (r2.ok) {
+      const data2 = await r2.json();
+      def.cn = data2.responseData?.translatedText || '';
+    }
+  } catch(e) {}
+
+  defCache[key] = def;
+  saveDefCache();
+  return def;
+}
+
+// ── VIEW SWITCHING ─────────────────────────────────────────────────────────
+function showView(v) {
+  currentView = v;
+  document.getElementById('list-view').style.display = v === 'list' ? 'block' : 'none';
+  document.getElementById('fc-view').style.display = v === 'fc' ? 'block' : 'none';
+  document.getElementById('dict-view').style.display = v === 'dict' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((b, i) => {
+    b.classList.toggle('active', ['list','fc','dict'][i] === v);
+  });
+  if (v === 'fc') initFC();
+  if (v === 'dict') initDict();
+}
+
+// ── FILTERS ────────────────────────────────────────────────────────────────
+function buildFilters() {
+  const cats = [...new Set(vocab.map(v => v.category).filter(Boolean))];
+  const bar = document.getElementById('fbar');
+  bar.querySelectorAll('.fb').forEach(b => b.remove());
+  const right = bar.querySelector('.fbar-right');
+
+  const makeBtn = (label, f) => {
+    const btn = document.createElement('button');
+    btn.className = 'fb' + (listFilter === f ? ' active' : '');
+    btn.dataset.f = f;
+    btn.textContent = label;
+    btn.onclick = () => setFilter(f);
+    bar.insertBefore(btn, right);
+  };
+  makeBtn(`All (${vocab.length})`, 'All');
+  cats.forEach(cat => makeBtn(`${cat} (${vocab.filter(v => v.category === cat).length})`, cat));
+}
+
+function setFilter(f) {
+  listFilter = f;
+  document.querySelectorAll('.fb').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  renderList();
+}
+
+function filteredVocab() {
+  return listFilter === 'All' ? vocab : vocab.filter(v => v.category === listFilter);
+}
+
+// ── WORD LIST ──────────────────────────────────────────────────────────────
+function renderList() {
+  const items = filteredVocab();
+  const el = document.getElementById('word-list');
+  el.innerHTML = '';
+
+  if (!items.length) {
+    el.innerHTML = '<div class="empty">No words saved yet.<br>Select text while reading to add words.</div>';
+    return;
+  }
+
+  // Group by category
+  const grouped = {};
+  items.forEach(v => { const k = v.category || 'Uncategorised'; if (!grouped[k]) grouped[k] = []; grouped[k].push(v); });
+
+  Object.entries(grouped).sort((a,b) => b[1].length - a[1].length).forEach(([cat, words]) => {
+    const section = document.createElement('div');
+    section.style.marginBottom = '24px';
+
+    const catHead = document.createElement('div');
+    catHead.style.cssText = 'font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:10px;display:flex;align-items:center;gap:8px';
+    catHead.innerHTML = `<span>${cat}</span><span style="color:var(--accent)">${words.length}</span>`;
+    section.appendChild(catHead);
+
+    const grid = document.createElement('div');
+    grid.className = 'word-grid';
+
+    words.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'wcard';
+
+      const key = v.word.toLowerCase().trim();
+      const cached = defCache[key];
+
+      card.innerHTML = `
+        <div class="wcard-top">
+          <div class="wdot" style="background:${v.colorCss||'#ccc'}"></div>
+          <div class="wword">${v.word}</div>
+          <input type="checkbox" class="wcheck" title="Add to today's study" ${selectedWords.has(v.word)?'checked':''}>
+          <button class="wcard-del">×</button>
+        </div>
+        <div class="wdef-en ${cached?'':'loading'}">${cached ? (cached.en || '<span style="color:var(--ink3)">No definition found</span>') : 'Looking up…'}</div>
+        <div class="wdef-cn">${cached ? (cached.cn || '') : ''}</div>
+        <div class="wcard-footer">
+          <span class="wcat">${v.category||'—'} · ${v.secId||''}</span>
+          <button class="wcn-toggle">中文</button>
+        </div>
+      `;
+
+      // Checkbox
+      card.querySelector('.wcheck').onchange = e => {
+        if (e.target.checked) selectedWords.add(v.word);
+        else selectedWords.delete(v.word);
+        updateStudyBar();
+      };
+
+      // Delete
+      card.querySelector('.wcard-del').onclick = () => {
+        vocab.splice(vocab.indexOf(v), 1);
+        selectedWords.delete(v.word);
+        localStorage.setItem('ielts_vocab', JSON.stringify(vocab));
+        load();
+      };
+
+      // Chinese toggle
+      const cnDiv = card.querySelector('.wdef-cn');
+      const cnBtn = card.querySelector('.wcn-toggle');
+      cnBtn.onclick = () => {
+        const showing = cnDiv.style.display === 'block';
+        cnDiv.style.display = showing ? 'none' : 'block';
+        cnBtn.textContent = showing ? '中文' : '隐藏';
+      };
+
+      grid.appendChild(card);
+
+      // Fetch definition if not cached
+      if (!cached) {
+        lookupWord(v.word).then(def => {
+          const enEl = card.querySelector('.wdef-en');
+          const cnEl = card.querySelector('.wdef-cn');
+          if (enEl) {
+            enEl.classList.remove('loading');
+            enEl.innerHTML = def.en || '<span style="color:var(--ink3)">No English definition found</span>';
+          }
+          if (cnEl) cnEl.textContent = def.cn || '';
+        });
+      }
+    });
+
+    section.appendChild(grid);
+    el.appendChild(section);
+  });
+
+  updateStudyBar();
+}
+
+function updateStudyBar() {
+  const n = selectedWords.size;
+  document.getElementById('selected-count').textContent = n;
+  document.getElementById('study-go').disabled = n === 0;
+}
+
+function selectAll() {
+  const items = filteredVocab();
+  items.forEach(v => selectedWords.add(v.word));
+  renderList();
+}
+
+// ── FLASHCARDS ─────────────────────────────────────────────────────────────
+function initFC() {
+  fcCards = [...vocab];
+  fcIdx = 0; fcFlipped = false;
+  renderFC();
+}
+
+function fcShuffle() {
+  for (let i = fcCards.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [fcCards[i], fcCards[j]] = [fcCards[j], fcCards[i]];
+  }
+  fcIdx = 0; fcFlipped = false;
+  renderFC();
+}
+
+function fcFlip() {
+  if (!fcCards.length) return;
+  fcFlipped = !fcFlipped;
+  const v = fcCards[fcIdx];
+  const key = v.word.toLowerCase().trim();
+  const enEl = document.getElementById('fc-def-en');
+  const cnEl = document.getElementById('fc-def-cn');
+  const hintEl = document.getElementById('fc-hint');
+  const cnBtn = document.getElementById('fc-cn-btn');
+
+  if (fcFlipped) {
+    hintEl.style.display = 'none';
+    enEl.style.display = 'block';
+    cnEl.style.display = 'none';
+    cnBtn.style.display = 'block';
+
+    const cached = defCache[key];
+    if (cached) {
+      enEl.textContent = cached.en || 'No definition found';
+      cnEl.textContent = cached.cn || '';
+    } else {
+      enEl.textContent = 'Looking up…';
+      lookupWord(v.word).then(def => {
+        enEl.textContent = def.en || 'No definition found';
+        cnEl.textContent = def.cn || '';
+      });
+    }
+  } else {
+    hintEl.style.display = 'block';
+    enEl.style.display = 'none';
+    cnEl.style.display = 'none';
+    cnBtn.style.display = 'none';
+  }
+}
+
+function fcShowCn() {
+  const cnEl = document.getElementById('fc-def-cn');
+  const btn = document.getElementById('fc-cn-btn');
+  cnEl.style.display = 'block';
+  btn.style.display = 'none';
+}
+
+function fcNav(dir) {
+  fcIdx = Math.max(0, Math.min(fcCards.length-1, fcIdx + dir));
+  fcFlipped = false;
+  renderFC();
+}
+
+function renderFC() {
+  if (!fcCards.length) {
+    document.getElementById('fc-word').textContent = 'No words';
+    document.getElementById('fc-idx').textContent = '0 / 0';
+    document.getElementById('fc-prog-text').textContent = '';
+    return;
+  }
+  const v = fcCards[fcIdx];
+  document.getElementById('fc-word').textContent = v.word;
+  document.getElementById('fc-idx').textContent = (fcIdx+1) + ' / ' + fcCards.length;
+  document.getElementById('fc-prog-text').textContent = fcCards.length + ' words';
+  document.getElementById('fc-hint').style.display = 'block';
+  document.getElementById('fc-def-en').style.display = 'none';
+  document.getElementById('fc-def-cn').style.display = 'none';
+  document.getElementById('fc-cn-btn').style.display = 'none';
+  document.getElementById('fc-prev').disabled = fcIdx === 0;
+  document.getElementById('fc-next').disabled = fcIdx === fcCards.length-1;
+}
+
+// ── DICTATION ──────────────────────────────────────────────────────────────
+function startStudy() {
+  // Build queue from selected words
+  const selected = vocab.filter(v => selectedWords.has(v.word));
+  if (!selected.length) return;
+  // Shuffle
+  dictQueue = [...selected].sort(() => Math.random() - .5);
+  dictMastered = [];
+  showView('dict');
+}
+
+function initDict() {
+  if (!dictQueue.length && !dictMastered.length) {
+    // If came directly to dictation tab with no queue, use all vocab
+    dictQueue = [...vocab].sort(() => Math.random() - .5);
+    dictMastered = [];
+  }
+  renderDictCard();
+}
+
+function renderDictCard() {
+  const arena = document.getElementById('dict-arena');
+  document.getElementById('dict-done-n').textContent = dictMastered.length;
+  document.getElementById('dict-total-n').textContent = dictMastered.length + dictQueue.length;
+  document.getElementById('dict-queue-info').textContent = dictQueue.length + ' remaining';
+
+  if (!dictQueue.length) {
+    // All done
+    arena.innerHTML = `
+      <div class="dict-done">
+        <h2>All done! 🎉</h2>
+        <p>You correctly spelled all ${dictMastered.length} words.</p>
+        <button class="dict-done-btn" onclick="dictRestart()">Practice again</button>
+        <button class="dict-done-btn" style="background:var(--surface);color:var(--ink2);border:1px solid var(--rule)" onclick="showView('list')">Back to list</button>
+      </div>
+    `;
+    return;
+  }
+
+  dictCurrent = dictQueue[0];
+  dictChecked = false;
+  dictShowCn = false;
+
+  const key = dictCurrent.word.toLowerCase().trim();
+  const cached = defCache[key];
+
+  arena.innerHTML = `
+    <div class="dict-card">
+      <div class="dict-prompt-label">Spell this word</div>
+      <div class="dict-def-en" id="dict-def-en">${cached ? (cached.en || 'Loading…') : 'Loading…'}</div>
+      <div class="dict-def-cn" id="dict-def-cn" style="display:none">${cached ? (cached.cn || '') : ''}</div>
+      <button class="dict-cn-btn" id="dict-cn-btn" onclick="dictRevealCn()">Show Chinese</button>
+      <div class="dict-input-wrap">
+        <input class="dict-input" id="dict-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="dict-check-btn" id="dict-check-btn" onclick="dictCheck()">Check</button>
+      </div>
+      <div class="dict-feedback" id="dict-feedback"></div>
+      <div class="dict-answer" id="dict-answer"></div>
+      <button class="dict-next-btn" id="dict-next-btn" style="display:none" onclick="dictNext()">Next word →</button>
+    </div>
+  `;
+
+  // Focus input
+  setTimeout(() => document.getElementById('dict-input')?.focus(), 50);
+
+  // Enter key
+  document.getElementById('dict-input').onkeydown = e => { if (e.key === 'Enter' && !dictChecked) dictCheck(); else if (e.key === 'Enter' && dictChecked) dictNext(); };
+
+  // Load definition if not cached
+  if (!cached) {
+    lookupWord(dictCurrent.word).then(def => {
+      const enEl = document.getElementById('dict-def-en');
+      const cnEl = document.getElementById('dict-def-cn');
+      if (enEl) enEl.textContent = def.en || 'No definition found';
+      if (cnEl) cnEl.textContent = def.cn || '';
+    });
+  }
+}
+
+function dictRevealCn() {
+  document.getElementById('dict-def-cn').style.display = 'block';
+  document.getElementById('dict-cn-btn').style.display = 'none';
+}
+
+function dictCheck() {
+  if (dictChecked) return;
+  dictChecked = true;
+  const input = document.getElementById('dict-input');
+  const userAns = input.value.trim().toLowerCase();
+  const correct = dictCurrent.word.toLowerCase().trim();
+  const isCorrect = userAns === correct;
+
+  input.className = 'dict-input ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('dict-feedback').textContent = isCorrect ? '✓ Correct!' : '✗ Not quite';
+  document.getElementById('dict-feedback').className = 'dict-feedback ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('dict-check-btn').disabled = true;
+
+  if (isCorrect) {
+    dictMastered.push(dictQueue.shift());
+    document.getElementById('dict-answer').textContent = '';
+  } else {
+    document.getElementById('dict-answer').textContent = 'Answer: ' + dictCurrent.word;
+    // Move to end of queue for retry
+    dictQueue.push(dictQueue.shift());
+  }
+
+  document.getElementById('dict-next-btn').style.display = 'inline-block';
+  document.getElementById('dict-done-n').textContent = dictMastered.length;
+  document.getElementById('dict-queue-info').textContent = dictQueue.length + ' remaining';
+}
+
+function dictNext() {
+  renderDictCard();
+}
+
+function dictRestart() {
+  const all = [...dictMastered, ...dictQueue].sort(() => Math.random() - .5);
+  dictQueue = all;
+  dictMastered = [];
+  renderDictCard();
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function exportCSV() {
+  if (!vocab.length) return alert('No words saved yet.');
+  const rows = [['Word','English Definition','Chinese','Category','Section']];
+  vocab.forEach(v => {
+    const def = defCache[v.word.toLowerCase().trim()] || {};
+    rows.push([v.word, def.en||'', def.cn||'', v.category||'', v.secId||'']);
+  });
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'ielts_vocab.csv';
+  a.click();
+}
+
+// Init
+document.getElementById('fc-view').style.display = 'none';
+document.getElementById('dict-view').style.display = 'none';
+load();
+</script>
+</body>
+</html>
